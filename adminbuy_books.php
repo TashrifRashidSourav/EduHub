@@ -112,7 +112,7 @@ if (isset($_POST['buy'])) {
 <body>
 
 <!-- Include Navbar -->
-<?php include 'navbar.php'; ?>
+<?php include 'navbaradmin.php'; ?>
 
 <div class="container mt-5">
     <h1 class="mb-4 text-center">Available Books</h1>

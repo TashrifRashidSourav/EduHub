@@ -1,37 +1,32 @@
 <?php
 session_start();
-include 'db_connect.php';
+include 'db_connect.php'; // Assuming you have this file for database connection
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $password = $_POST['password']; // Don't escape the password
 
-    // Check if the user exists
-    $sql = "SELECT * FROM students WHERE email = '$email'";
-    $result = mysqli_query($conn, $sql);
+    // Use prepared statements
+    $stmt = $conn->prepare("SELECT * FROM students WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    if ($result && mysqli_num_rows($result) > 0) {
-        $user = mysqli_fetch_assoc($result);
+    if ($result && $result->num_rows > 0) {
+        $user = $result->fetch_assoc();
 
         // Verify the password
         if (password_verify($password, $user['password'])) {
             // Set session variables
-            $_SESSION['student_id'] = $user['student_id'];
+            $_SESSION['student_id'] = $user['student_id']; // Ensure this is set
             $_SESSION['name'] = $user['name'];
 
-            // Check if the user is an admin
-            if ($user['isadmin'] === 'yes') {
-                header("Location: adminindex.php");
-            } else {
-                header("Location: index.php");
-            }
+            // Redirect based on admin status
+            header("Location: " . ($user['isadmin'] === 'yes' ? "adminindex.php" : "index.php"));
             exit();
-        } else {
-            $error = "Incorrect password.";
         }
-    } else {
-        $error = "No account found with that email.";
     }
+    $error = "Invalid login credentials.";
 }
 ?>
 
@@ -41,7 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduHub | Login</title>
-    <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -56,15 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         .error {
             color: red;
-        }
-        h2 {
-            margin-bottom: 20px;
-        }
-        .form-control {
-            height: 45px;
-        }
-        button {
-            height: 45px;
         }
     </style>
 </head>
@@ -96,7 +81,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

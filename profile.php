@@ -2,7 +2,7 @@
 session_start();
 include 'db_connect.php'; // Include your database connection
 
-// Check if user is logged in, otherwise redirect to login
+// Check if the user is logged in, otherwise redirect to login
 if (!isset($_SESSION['student_id'])) {
     header("Location: login.php");
     exit();
@@ -49,6 +49,13 @@ $user = mysqli_fetch_assoc($result);
         .profile-info p {
             margin-bottom: 10px;
         }
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: block;
+        }
         .btn-edit {
             display: block;
             margin: 20px auto 0;
@@ -67,13 +74,18 @@ $user = mysqli_fetch_assoc($result);
                 <div class="profile-header">
                     <h2>Your Profile</h2>
                 </div>
-                <div class="profile-card">
+                <div class="profile-card text-center">
+                    <!-- Display Profile Picture -->
+                    <?php if (!empty($user['profile_picture'])): ?>
+                        <img src="<?= htmlspecialchars($user['profile_picture'], ENT_QUOTES) ?>" alt="Profile Picture" class="profile-picture">
+                    <?php else: ?>
+                        <img src="default-avatar.png" alt="Default Profile Picture" class="profile-picture">
+                    <?php endif; ?>
+
                     <div class="profile-info">
-                        <p><strong>Name:</strong> <?= $user['name'] ?></p>
-                        <p><strong>Email:</strong> <?= $user['email'] ?></p>
-                        <p><strong>Profile Rank:</strong> <?= $user['profile_rank'] ?></p>
-                        <p><strong>Career Guidance:</strong> <?= $user['career_guidance'] ?></p>
-                        <p><strong>Personalized Suggestions:</strong> <?= $user['personalized_suggestions'] ?></p>
+                        <p><strong>Name:</strong> <?= htmlspecialchars($user['name'], ENT_QUOTES) ?></p>
+                        <p><strong>Email:</strong> <?= htmlspecialchars($user['email'], ENT_QUOTES) ?></p>
+                        <p><strong>Profile Rank:</strong> <?= htmlspecialchars($user['profile_rank'], ENT_QUOTES) ?></p>
                     </div>
                     <a href="profile_edit.php" class="btn btn-primary btn-edit">Edit Profile</a>
                 </div>

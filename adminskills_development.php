@@ -159,7 +159,7 @@ $skills = ['PowerPoint', 'Word', 'Excel', 'Web Development', 'Frontend', 'Fullst
     </style>
 </head>
 <body>
-<?php include 'navbar.php'; ?>
+<?php include 'navbaradmin.php'; ?>
     <div class="container">
         <h2>Student Skills</h2>
         <form action="" method="POST" enctype="multipart/form-data">

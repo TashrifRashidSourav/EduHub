@@ -49,7 +49,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="skills_development.php"><i class="fas fa-tools"></i> Skills & Freelancing</a>
+                <a class="nav-link" href="skills_development.php"><i class="fas fa-tools"></i> My Skills</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="courses.php"><i class="fas fa-graduation-cap"></i> Courses</a>
@@ -84,11 +84,23 @@
                     <li><a class="dropdown-item" href="search_tutors.php">Search Tutor</a></li>
                 </ul>
             </li>
+
+            <!-- Work Dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="workDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-briefcase"></i> Work
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="workDropdown">
+                    <li><a class="dropdown-item" href="work.php">Add Work</a></li>
+                    <li><a class="dropdown-item" href="searchwork.php">Search Work</a></li>
+                </ul>
+            </li>
+
             <li class="nav-item">
-                <a class="nav-link" href="chatting.php">Chat</a>
+                <a class="nav-link" href="chat.php"><i class="fas fa-comments"></i> Chat</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="logout.php">Logout</a>
+                <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </li>
         </ul>
     </div>

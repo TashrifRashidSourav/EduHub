@@ -151,7 +151,7 @@ if (isset($_SESSION['success_message'])) {
 </head>
 <body>
 
-    <?php include 'navbar.php'; ?>
+    <?php include 'navbaradmin.php'; ?>
 
     <div class="container">
         <h1>Be an Instructor</h1>

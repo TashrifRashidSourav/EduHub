@@ -409,3 +409,25 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+
+-- Create a 'chats' table to store which users are chatting with each other
+CREATE TABLE chats (
+    chat_id INT AUTO_INCREMENT PRIMARY KEY,
+    user1_id INT,
+    user2_id INT,
+    FOREIGN KEY (user1_id) REFERENCES students(student_id),
+    FOREIGN KEY (user2_id) REFERENCES students(student_id)
+);
+
+-- Create a 'messages' table to store the messages exchanged
+CREATE TABLE messages (
+    message_id INT AUTO_INCREMENT PRIMARY KEY,
+    chat_id INT,
+    sender_id INT,
+    message TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (chat_id) REFERENCES chats(chat_id),
+    FOREIGN KEY (sender_id) REFERENCES students(student_id)
+);
+

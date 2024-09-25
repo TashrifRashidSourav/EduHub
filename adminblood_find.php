@@ -139,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
 </head>
 <body>
 
-    <?php include 'navbar.php'; ?>
+    <?php include 'navbaradmin.php'; ?>
     
     <div class="container">
         <h1>Blood Find Information</h1>

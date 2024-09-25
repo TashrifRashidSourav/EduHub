@@ -98,7 +98,7 @@ $result = $conn->query($sql);
 <body>
 
     <!-- Navbar inclusion -->
-    <?php include 'navbar.php'; ?>
+    <?php include 'navbaradmin.php'; ?>
 
     <div class="container">
         <h1>Instructor Information</h1>
