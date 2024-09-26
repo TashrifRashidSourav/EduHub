@@ -13,8 +13,19 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch all instructor data
-$sql = "SELECT full_name, job_experience, available_courses, expected_money, class_hour, video_upload_path, created_at FROM instructors";
+// Handle filter form submission
+$course_filters = isset($_POST['course_filters']) ? $_POST['course_filters'] : [];
+$course_filter_query = '';
+
+if (!empty($course_filters)) {
+    $course_filter_query = " AND available_courses IN ('" . implode("', '", $course_filters) . "')";
+}
+
+// Fetch approved instructor data with optional course filtering
+$sql = "SELECT full_name, job_experience, available_courses, expected_money, class_hour, video_upload_path, created_at 
+        FROM instructors 
+        WHERE is_approved = 'yes' $course_filter_query";
+
 $result = $conn->query($sql);
 ?>
 
@@ -78,15 +89,6 @@ $result = $conn->query($sql);
             background-color: #f1f1f1;
         }
 
-        a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
         .no-data {
             text-align: center;
             font-size: 18px;
@@ -102,6 +104,40 @@ $result = $conn->query($sql);
 
     <div class="container">
         <h1>Instructor Information</h1>
+
+        <!-- Course Filter Form -->
+        <form method="POST">
+            <h5>Filter by Course:</h5>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="course_filters[]" value="PowerPoint" id="powerpoint">
+                <label class="form-check-label" for="powerpoint">PowerPoint</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="course_filters[]" value="Word" id="word">
+                <label class="form-check-label" for="word">Word</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="course_filters[]" value="Excel" id="excel">
+                <label class="form-check-label" for="excel">Excel</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="course_filters[]" value="Web Frontend" id="web_frontend">
+                <label class="form-check-label" for="web_frontend">Web Frontend</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="course_filters[]" value="Web Backend" id="web_backend">
+                <label class="form-check-label" for="web_backend">Web Backend</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="course_filters[]" value="Web Fullstack" id="web_fullstack">
+                <label class="form-check-label" for="web_fullstack">Web Fullstack</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="course_filters[]" value="Electronics Projects" id="electronics_projects">
+                <label class="form-check-label" for="electronics_projects">Electronics Projects</label>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Filter</button>
+        </form>
 
         <?php if ($result->num_rows > 0): ?>
             <table class="table table-bordered">
@@ -136,7 +172,7 @@ $result = $conn->query($sql);
                 </tbody>
             </table>
         <?php else: ?>
-            <p class="no-data">No instructor data found.</p>
+            <p class="no-data">No approved instructor data found.</p>
         <?php endif; ?>
     </div>
 
