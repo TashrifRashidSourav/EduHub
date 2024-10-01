@@ -17,6 +17,7 @@ if ($conn->connect_error) {
 $course_filters = isset($_POST['course_filters']) ? $_POST['course_filters'] : [];
 $course_filter_query = '';
 
+// Prepare filtering for available courses
 if (!empty($course_filters)) {
     $course_filter_query = " AND available_courses IN ('" . implode("', '", $course_filters) . "')";
 }
@@ -24,9 +25,33 @@ if (!empty($course_filters)) {
 // Fetch approved instructor data with optional course filtering
 $sql = "SELECT full_name, job_experience, available_courses, expected_money, class_hour, video_upload_path, created_at 
         FROM instructors 
-        WHERE is_approved = 'yes' $course_filter_query";
+        WHERE status = 'approved' $course_filter_query";
 
+// Execute query
 $result = $conn->query($sql);
+
+// Check for query execution errors
+if ($result === false) {
+    die("Query failed: " . $conn->error);
+}
+
+// Handle purchase request
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['instructor_name'])) {
+    $instructor_name = $conn->real_escape_string($_POST['instructor_name']);
+    
+    // Debugging line
+    echo "<script>alert('Form submitted with instructor: " . htmlspecialchars($instructor_name) . "');</script>";
+    
+    // Example: Inserting into a hypothetical purchases table
+    $purchase_sql = "INSERT INTO purchases (instructor_name, purchase_date) VALUES ('$instructor_name', NOW())";
+    
+    if ($conn->query($purchase_sql) === TRUE) {
+        echo "<script>alert('You have successfully purchased the course from " . htmlspecialchars($instructor_name) . "!');</script>";
+    } else {
+        echo "<script>alert('Error: " . $conn->error . "');</script>";
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -100,7 +125,7 @@ $result = $conn->query($sql);
 <body>
 
     <!-- Navbar inclusion -->
-    <?php include 'navbar.php'; ?>
+    <?php include 'navbaradmin.php'; ?>
 
     <div class="container">
         <h1>Instructor Information</h1>
@@ -165,7 +190,7 @@ $result = $conn->query($sql);
                             <td><?php echo htmlspecialchars($row['created_at']); ?></td>
                             <td>
                                 <!-- Buy Now Button that triggers the modal -->
-                                <button class="btn btn-primary" data-toggle="modal" data-target="#buyNowModal" data-id="<?php echo $row['full_name']; ?>">Buy Now</button>
+                                <button class="btn btn-primary" data-toggle="modal" data-target="#buyNowModal" data-id="<?php echo htmlspecialchars($row['full_name']); ?>">Buy Now</button>
                             </td>
                         </tr>
                     <?php endwhile; ?>
@@ -188,7 +213,7 @@ $result = $conn->query($sql);
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to purchase this course from <span id="instructorName"></span>?</p>
-                    <form action="buynow.php" method="POST">
+                    <form action="" method="POST">
                         <input type="hidden" name="instructor_name" id="instructor_name" value="">
                         <button type="submit" class="btn btn-success">Confirm Purchase</button>
                     </form>
@@ -197,7 +222,7 @@ $result = $conn->query($sql);
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>

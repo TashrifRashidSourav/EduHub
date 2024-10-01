@@ -26,6 +26,7 @@ $posts = getPendingRecords($conn, 'posts');
 $books = getPendingRecords($conn, 'books');
 $blood_donation = getPendingRecords($conn, 'blood_donation');
 $items = getPendingRecords($conn, 'items');
+$instructors = getPendingRecords($conn, 'instructors');
 
 // Check for success messages
 $message = '';
@@ -105,6 +106,7 @@ if (isset($_GET['status']) && $_GET['status'] == 'success') {
             <label><input type="checkbox" onclick="toggleSection('pending-books')"> Pending Books</label>
             <label><input type="checkbox" onclick="toggleSection('pending-blood')"> Pending Blood Donations</label>
             <label><input type="checkbox" onclick="toggleSection('pending-items')"> Pending Items</label>
+            <label><input type="checkbox" onclick="toggleSection('pending-instructors')"> Pending Instructors</label>
         </div>
 
         <!-- Pending Posts -->
@@ -236,6 +238,42 @@ if (isset($_GET['status']) && $_GET['status'] == 'success') {
                         <td class="actions">
                             <a href="approve_item.php?id=<?php echo $row['item_id']; ?>" class="btn btn-success btn-sm">Approve</a>
                             <a href="reject_item.php?id=<?php echo $row['item_id']; ?>" class="btn btn-danger btn-sm">Reject</a>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pending Instructors -->
+        <div id="pending-instructors" class="pending-section">
+            <h2>Pending Instructors</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Instructor ID</th>
+                        <th>Full Name</th>
+                        <th>Job Experience</th>
+                        <th>Available Courses</th>
+                        <th>Expected Money</th>
+                        <th>Class Hour</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($row = mysqli_fetch_assoc($instructors)) { ?>
+                    <tr>
+                        <td><?php echo $row['instructor_id']; ?></td>
+                        <td><?php echo $row['full_name']; ?></td>
+                        <td><?php echo $row['job_experience']; ?></td>
+                        <td><?php echo $row['available_courses']; ?></td>
+                        <td><?php echo $row['expected_money']; ?></td>
+                        <td><?php echo $row['class_hour']; ?></td>
+                        <td><?php echo $row['status']; ?></td>
+                        <td class="actions">
+                            <a href="approve_instructor.php?id=<?php echo $row['instructor_id']; ?>" class="btn btn-success btn-sm">Approve</a>
+                            <a href="reject_instructor.php?id=<?php echo $row['instructor_id']; ?>" class="btn btn-danger btn-sm">Reject</a>
                         </td>
                     </tr>
                     <?php } ?>
