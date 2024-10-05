@@ -31,58 +31,80 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduHub | Login</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tailwind CSS & DaisyUI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.28.0/dist/full.css" rel="stylesheet">
     <style>
+        @keyframes bounceIn {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .animated-bounce {
+            animation: bounceIn 1s ease-in-out infinite;
+        }
+
         body {
             background-color: #f5f5f5;
         }
-        .container {
-            margin-top: 50px;
-        }
-        .card {
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .error {
-            color: red;
-        }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <h2 class="text-center">Login to EduHub</h2>
-                    <form action="login.php" method="POST">
-                        <?php if (isset($error)): ?>
-                            <p class="error text-center"><?= htmlspecialchars($error) ?></p>
-                        <?php endif; ?>
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="email" name="email" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password:</label>
-                            <input type="password" name="password" class="form-control" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block">Login</button>
-                    </form>
-                    <div class="text-center mt-3">
-                        <p>Don't have an account? <a href="register.php">Register here</a></p>
-                    </div>
+
+<body class="bg-gradient-to-r from-indigo-200 via-purple-300 to-pink-400 min-h-screen flex items-center justify-center">
+    <div class="container max-w-md mx-auto">
+        <div class="card shadow-xl rounded-lg p-8 bg-white animate__animated animate__fadeInDown">
+            <h2 class="text-4xl font-bold text-center text-indigo-600 mb-6">Login to EduHub</h2>
+            <form action="login.php" method="POST" class="space-y-6">
+                <?php if (isset($error)): ?>
+                    <p class="error text-center text-red-500"><?= htmlspecialchars($error) ?></p>
+                <?php endif; ?>
+                <div class="form-control w-full">
+                    <label for="email" class="label text-lg font-semibold text-gray-700">
+                        <span class="label-text">Email</span>
+                    </label>
+                    <input type="email" name="email" placeholder="Enter your email"
+                        class="input input-bordered w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
                 </div>
+                <div class="form-control w-full">
+                    <label for="password" class="label text-lg font-semibold text-gray-700">
+                        <span class="label-text">Password</span>
+                    </label>
+                    <input type="password" name="password" placeholder="Enter your password"
+                        class="input input-bordered w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <button type="submit"
+                    class="btn w-full btn-primary hover:bg-indigo-600 transition-transform transform hover:scale-105 duration-300">
+                    <svg class="h-5 w-5 inline-block mr-2" viewBox="0 0 24 24" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2.00098 11.999L16.001 11.999M16.001 11.999L12.501 8.99902M16.001 11.999L12.501 14.999"
+                            stroke="#ffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path
+                            d="M9.00195 7C9.01406 4.82497 9.11051 3.64706 9.87889 2.87868C10.7576 2 12.1718 2 15.0002 2L16.0002 2C18.8286 2 20.2429 2 21.1215 2.87868C22.0002 3.75736 22.0002 5.17157 22.0002 8L22.0002 16C22.0002 18.8284 22.0002 20.2426 21.1215 21.1213C20.3531 21.8897 19.1752 21.9862 17 21.9983M9.00195 17C9.01406 19.175 9.11051 20.3529 9.87889 21.1213C10.5202 21.7626 11.4467 21.9359 13 21.9827"
+                            stroke="#ffff" stroke-width="1.5" stroke-linecap="round" />
+                    </svg>
+                    Login
+                </button>
+            </form>
+            <div class="text-center mt-6 text-sm">
+                <p>Don't have an account?
+                    <a href="register.php" class="text-indigo-600 hover:text-indigo-800 transition-colors">Register
+                        here</a>
+                </p>
             </div>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest"></script>
 </body>
+
 </html>

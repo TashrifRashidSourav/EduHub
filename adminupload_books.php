@@ -123,25 +123,31 @@ $result = $stmt->get_result();
         }
         .container {
             margin-top: 50px;
+            max-width: 1200px; /* Set a max-width for the container */
+        }
+        .card-deck {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-left: -15px; /* Adjust left margin */
+            margin-right: -15px; /* Adjust right margin */
+        }
+        .card {
+            width: 300px; /* Increased width of the card */
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 20px; /* Increased margin for more space between cards */
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: scale(1.05); /* Add scaling effect on hover */
         }
         .book-image {
-            max-width: 150px;
-            max-height: 200px;
             object-fit: cover;
-        }
-        .book-list .book-item {
-            margin-bottom: 30px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: #fff;
-        }
-        .book-list .book-item:hover {
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .book-list img {
-            max-width: 100%;
-            height: auto;
+            height: 200px; /* Set a fixed height for book images */
+            width: 100%;
         }
         .book-list .btn {
             margin-top: 10px;
@@ -188,49 +194,48 @@ $result = $stmt->get_result();
         </form>
 
         <h1 class="text-center mt-5 mb-4">My Books</h1>
-        <div class="book-list">
+        <div class="card-deck">
+            <?php $count = 0; ?>
             <?php while ($row = $result->fetch_assoc()): ?>
-                <div class="book-item">
-                    <h2><?php echo htmlspecialchars($row['title']); ?></h2>
-                    <p><strong>Author:</strong> <?php echo htmlspecialchars($row['author']); ?></p>
-                    <p><strong>Price:</strong> $<?php echo htmlspecialchars(number_format($row['price'], 2)); ?></p>
-                    <p><strong>Conditions:</strong> <?php echo htmlspecialchars($row['conditions']); ?></p>
-                    <?php if ($row['image_path']): ?>
-                        <img src="<?php echo htmlspecialchars($row['image_path']); ?>" alt="Book Image" class="book-image">
-                    <?php endif; ?>
-                    <?php if ($row['file_path']): ?>
-                        <p><a href="<?php echo htmlspecialchars($row['file_path']); ?>" download class="btn btn-success">Download File</a></p>
-                    <?php endif; ?>
-                    <a href="upload_books.php?delete=<?php echo $row['book_id']; ?>" class="btn btn-danger">Delete</a>
+                <div class="col-md-4"> <!-- This keeps three cards per row -->
+                    <div class="card">
+                        <?php if ($row['image_path']): ?>
+                            <img src="<?php echo htmlspecialchars($row['image_path']); ?>" alt="Book Image" class="card-img-top book-image">
+                        <?php endif; ?>
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo htmlspecialchars($row['title']); ?></h5>
+                            <p class="card-text"><strong>Author:</strong> <?php echo htmlspecialchars($row['author']); ?></p>
+                            <p class="card-text"><strong>Price:</strong> $<?php echo htmlspecialchars($row['price']); ?></p>
+                            <p class="card-text"><strong>Conditions:</strong> <?php echo htmlspecialchars($row['conditions']); ?></p>
+                            <a href="<?php echo htmlspecialchars($row['file_path']); ?>" class="btn btn-secondary" download>Download</a>
+                            <a href="?delete=<?php echo $row['book_id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this book?');">Delete</a>
+                        </div>
+                    </div>
                 </div>
+                <?php $count++; ?>
             <?php endwhile; ?>
         </div>
     </div>
 
-    <!-- Include Bootstrap JS -->
+    <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        // Example of form validation script
-        (function() {
-            'use strict';
-            window.addEventListener('load', function() {
-                var forms = document.getElementsByClassName('needs-validation');
-                var validation = Array.prototype.filter.call(forms, function(form) {
-                    form.addEventListener('submit', function(event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-            }, false);
+        // Example of Bootstrap's validation
+        (function () {
+            'use strict'
+            const forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
         })();
     </script>
 </body>
 </html>
-<?php
-$conn->close();
-?>

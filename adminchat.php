@@ -95,7 +95,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>Chat Application</title>
     <style>
@@ -217,70 +216,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container">
         <div class="sidebar">
             <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Search users by name" oninput="searchUsers()">
+                <input type="text" id="searchInput" placeholder="Search users" oninput="searchUsers()">
             </div>
-            <div class="contacts" id="contacts"></div>
+            <div class="contacts" id="contactsList"></div>
         </div>
         <div class="chat-box">
-            <div class="chat-header" id="chatHeader">Select a user to start chat</div>
-            <div class="messages" id="messages"></div>
-            <div class="input-box">
+            <div class="chat-header" id="chatHeader">Select a contact</div>
+            <div class="messages" id="messagesList"></div>
+            <div class="input-box" id="inputBox">
                 <input type="text" id="messageInput" placeholder="Type a message...">
                 <button onclick="sendMessage()">Send</button>
             </div>
         </div>
     </div>
+    
     <script>
-        const senderId = <?php echo json_encode($user_id); ?>;
-        let receiverId = null;
-        let receiverName = '';
-
-        function getMessages() {
-            if (!receiverId) return;
-
-            const formData = new FormData();
-            formData.append('contact_id', receiverId);
-            formData.append('getMessages', true);
-
-            fetch('', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                const messagesDiv = document.getElementById('messages');
-                messagesDiv.innerHTML = '';
-                data.forEach(message => {
-                    const messageDiv = document.createElement('div');
-                    messageDiv.classList.add('message');
-                    messageDiv.classList.add(message.sender_id == senderId ? 'sender' : 'receiver');
-                    messageDiv.innerHTML = `<span class="sender-name">${message.sender_name}: </span>${message.message}`;
-                    messagesDiv.appendChild(messageDiv);
-                });
-                messagesDiv.scrollTop = messagesDiv.scrollHeight; // Auto-scroll to bottom
-            });
-        }
-
-        function sendMessage() {
-            const messageInput = document.getElementById('messageInput');
-            const message = messageInput.value.trim();
-            if (message === '' || !receiverId) return;
-
-            const formData = new FormData();
-            formData.append('receiver_id', receiverId);
-            formData.append('message', message);
-            formData.append('sendMessage', true);
-
-            fetch('', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.text())
-            .then(() => {
-                messageInput.value = '';
-                getMessages();
-            });
-        }
+        let currentContactId = null;
 
         function searchUsers() {
             const name = document.getElementById('searchInput').value;
@@ -288,31 +239,100 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             formData.append('name', name);
             formData.append('searchUsers', true);
 
-            fetch('', {
+            fetch('chat.php', {
                 method: 'POST',
                 body: formData
             })
             .then(response => response.json())
             .then(users => {
-                const contactsDiv = document.getElementById('contacts');
-                contactsDiv.innerHTML = '';
+                const contactsList = document.getElementById('contactsList');
+                contactsList.innerHTML = ''; // Clear previous results
                 users.forEach(user => {
                     const contactDiv = document.createElement('div');
                     contactDiv.classList.add('contact');
-                    contactDiv.innerHTML = user.name;
-                    contactDiv.onclick = () => selectContact(user.student_id, user.name);
-                    contactsDiv.appendChild(contactDiv);
+                    contactDiv.innerHTML = `${user.name}`;
+                    contactDiv.onclick = function() {
+                        openChat(user.student_id);
+                    };
+                    contactsList.appendChild(contactDiv);
                 });
             });
         }
 
-        function selectContact(id, name) {
-            receiverId = id;
-            receiverName = name;
-            document.getElementById('chatHeader').innerText = `Chat with ${receiverName}`;
-            getMessages();
-            setInterval(getMessages, 2000); // Polling every 2 seconds for new messages
+        function openChat(receiverId) {
+            currentContactId = receiverId;
+            const chatHeader = document.getElementById('chatHeader');
+            chatHeader.textContent = "Chatting with " + receiverId; // You may want to fetch the actual name
+            loadMessages();
         }
+
+        function loadMessages() {
+            if (currentContactId === null) return;
+
+            const formData = new FormData();
+            formData.append('contact_id', currentContactId);
+            formData.append('getMessages', true);
+
+            fetch('chat.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(messages => {
+                const messagesList = document.getElementById('messagesList');
+                messagesList.innerHTML = ''; // Clear previous messages
+                messages.forEach(message => {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.classList.add('message', message.sender_id == '<?php echo $user_id; ?>' ? 'sender' : 'receiver');
+                    messageDiv.innerHTML = `<span class="sender-name">${message.sender_name}:</span> ${message.message}`;
+                    messagesList.appendChild(messageDiv);
+                });
+                messagesList.scrollTop = messagesList.scrollHeight; // Scroll to the bottom
+            });
+        }
+
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value.trim();
+            if (message === '' || currentContactId === null) return;
+
+            const formData = new FormData();
+            formData.append('receiver_id', currentContactId);
+            formData.append('message', message);
+            formData.append('sendMessage', true);
+
+            fetch('chat.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                loadMessages(); // Load messages after sending
+                messageInput.value = ''; // Clear input field
+            });
+        }
+
+        // Load recent contacts on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const formData = new FormData();
+            formData.append('getRecentContacts', true);
+            fetch('chat.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(contacts => {
+                const contactsList = document.getElementById('contactsList');
+                contacts.forEach(contact => {
+                    const contactDiv = document.createElement('div');
+                    contactDiv.classList.add('contact');
+                    contactDiv.innerHTML = `${contact.contact_name}`;
+                    contactDiv.onclick = function() {
+                        openChat(contact.contact_id);
+                    };
+                    contactsList.appendChild(contactDiv);
+                });
+            });
+        });
     </script>
 </body>
 </html>

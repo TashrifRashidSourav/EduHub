@@ -51,8 +51,15 @@
             <li class="nav-item">
                 <a class="nav-link" href="skills_development.php"><i class="fas fa-tools"></i> My Skills</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="courses.php"><i class="fas fa-graduation-cap"></i> Courses</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="coursesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-graduation-cap"></i> Courses
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="coursesDropdown">
+                    <li><a class="dropdown-item" href="courses.php">Buy Course</a></li>
+                    <li><a class="dropdown-item" href="my_courses.php">My Courses</a></li>
+                
+                </ul>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="ranking.php"><i class="fas fa-star"></i> Ranking</a>
@@ -98,6 +105,10 @@
 
             <li class="nav-item">
                 <a class="nav-link" href="chat.php"><i class="fas fa-comments"></i> Chat</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="my_courses.php"><i class="fas fa-comments"></i>My courses</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>

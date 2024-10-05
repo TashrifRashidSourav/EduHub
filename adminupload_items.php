@@ -110,6 +110,7 @@ $stmt->bind_param('i', $student_id);
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -127,27 +128,20 @@ $result = $stmt->get_result();
         .container {
             margin-top: 50px;
         }
-        .item-image {
-            max-width: 150px;
-            max-height: 200px;
-            object-fit: cover;
-        }
-        .item-list .item {
+        .item-card {
             margin-bottom: 30px;
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 8px;
             background-color: #fff;
+            transition: 0.3s;
         }
-        .item-list .item:hover {
+        .item-card:hover {
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        .item-list img {
+        .item-image {
             max-width: 100%;
             height: auto;
-        }
-        .item-list .btn {
-            margin-top: 10px;
         }
     </style>
 </head>
@@ -200,37 +194,38 @@ $result = $stmt->get_result();
         </form>
 
         <h1 class="text-center mt-5 mb-4">My Items</h1>
-        <div class="item-list">
+        <div class="row">
             <?php while ($row = $result->fetch_assoc()): ?>
-                <div class="item">
-                    <h2><?php echo htmlspecialchars($row['title']); ?></h2>
-                    <p><strong>Author/Brand:</strong> <?php echo htmlspecialchars($row['author_or_brand']); ?></p>
-                    <p><strong>Price:</strong> $<?php echo htmlspecialchars(number_format($row['price'], 2)); ?></p>
-                    <p><strong>Conditions:</strong> <?php echo htmlspecialchars($row['conditions']); ?></p>
-                    <p><strong>Category:</strong> <?php echo htmlspecialchars($row['category']); ?></p>
-                    <?php if ($row['category'] != 'Study Materials'): ?>
-                        <img src="<?php echo htmlspecialchars($row['pdf_link_or_image']); ?>" alt="Item Image" class="item-image">
-                    <?php elseif ($row['category'] == 'Study Materials'): ?>
-                        <p><a href="<?php echo htmlspecialchars($row['pdf_link_or_image']); ?>" target="_blank">Download PDF</a></p>
-                    <?php endif; ?>
-                    <a href="upload_items.php?delete=<?php echo $row['item_id']; ?>" class="btn btn-danger">Delete</a>
+                <div class="col-md-4">
+                    <div class="item-card">
+                        <h2><?php echo htmlspecialchars($row['title']); ?></h2>
+                        <p><strong>Author/Brand:</strong> <?php echo htmlspecialchars($row['author_or_brand']); ?></p>
+                        <p><strong>Price:</strong> $<?php echo htmlspecialchars(number_format($row['price'], 2)); ?></p>
+                        <p><strong>Conditions:</strong> <?php echo htmlspecialchars($row['conditions']); ?></p>
+                        <p><strong>Category:</strong> <?php echo htmlspecialchars($row['category']); ?></p>
+                        <?php if ($row['category'] == 'Study Materials' && $row['pdf_link_or_image']): ?>
+                            <p><a href="<?php echo htmlspecialchars($row['pdf_link_or_image']); ?>" class="btn btn-secondary" target="_blank">View PDF</a></p>
+                        <?php elseif ($row['pdf_link_or_image']): ?>
+                            <img src="<?php echo htmlspecialchars($row['pdf_link_or_image']); ?>" alt="Item Image" class="item-image">
+                        <?php endif; ?>
+                        <a href="?delete=<?php echo $row['item_id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+                    </div>
                 </div>
             <?php endwhile; ?>
         </div>
     </div>
 
-    <!-- Bootstrap JS and custom validation -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        // Custom form validation
-        (function() {
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
             'use strict';
-            window.addEventListener('load', function() {
+            window.addEventListener('load', function () {
                 var forms = document.getElementsByClassName('needs-validation');
-                var validation = Array.prototype.filter.call(forms, function(form) {
-                    form.addEventListener('submit', function(event) {
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
                         if (form.checkValidity() === false) {
                             event.preventDefault();
                             event.stopPropagation();
@@ -243,8 +238,3 @@ $result = $stmt->get_result();
     </script>
 </body>
 </html>
-
-<?php
-$stmt->close();
-$conn->close();
-?>

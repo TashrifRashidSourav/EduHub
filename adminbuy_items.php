@@ -70,12 +70,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buy'])) {
     <title>Buy Items</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f8f9fa; }
-        .item-list { margin: 20px auto; max-width: 800px; }
-        .item-card { border: 1px solid #ddd; border-radius: 5px; padding: 15px; margin-bottom: 15px; background-color: #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.2s; }
-        .item-card:hover { transform: scale(1.02); }
-        .btn-buy { background-color: #007bff; color: white; }
-        .btn-buy:hover { background-color: #0056b3; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .item-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+           
+        }
+        .item-card:hover {
+            transform: scale(1.02);
+        }
+        .btn-buy {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-buy:hover {
+            background-color: #0056b3;
+        }
+        .item-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -86,12 +110,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buy'])) {
 <div class="container mt-5">
     <h1 class="mb-4 text-center">Available Items</h1>
 
-    <div class="item-list">
+    <div class="row">
         <?php
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
+                echo "<div class='col-md-2'>"; // Set the column width to 2 for 5 cards per row (12/5 = 2.4, rounded down to 2)
                 echo "<div class='item-card'>";
                 echo "<h3>" . htmlspecialchars($row['title']) . "</h3>";
+                echo "<img src='" . htmlspecialchars($row['pdf_link_or_image']) . "' alt='Item Image' class='item-image'>";
                 echo "<p>Price: $" . htmlspecialchars($row['price']) . "</p>";
                 echo "<p>Condition: " . htmlspecialchars($row['conditions']) . "</p>";
                 echo "<p>Category: " . htmlspecialchars($row['category']) . "</p>";
@@ -107,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buy'])) {
                         <input type='hidden' name='amount' value='" . htmlspecialchars($row['price']) . "'>
                         <button type='submit' name='buy' class='btn btn-buy'>Buy Now</button>
                       </form>";
-                echo "</div>";
+                echo "</div></div>"; // Close item-card and column divs
             }
         } else {
             echo "<p>No items available at the moment.</p>";

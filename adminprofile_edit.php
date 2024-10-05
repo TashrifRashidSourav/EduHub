@@ -129,7 +129,7 @@ while ($row = mysqli_fetch_assoc($user_skills_result)) {
 <body>
 
     <!-- Include Navbar -->
-    <?php include 'navbar.php'; ?>
+    <?php include 'navbaradmin.php'; ?>
 
     <!-- Edit Profile Section -->
     <div class="container edit-profile-container">

@@ -25,46 +25,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduHub | Register</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- DaisyUI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@1.14.1/dist/full.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
-            background-color: #f9f9f9;
+            background-color: #f0f4ff;
         }
-        .container {
-            margin-top: 50px;
-        }
+
         .card {
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: scaleUp 0.5s ease-in-out;
         }
-        .form-control {
-            height: 45px;
+
+        @keyframes scaleUp {
+            from {
+                transform: scale(0.95);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
-        .btn-block {
-            height: 45px;
-        }
-        .error {
-            color: red;
-        }
-        .success {
-            color: green;
+
+        .input:focus {
+            box-shadow: 0 0 0 2px rgba(67, 56, 202, 0.5);
         }
     </style>
 </head>
-<body>
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <h2 class="text-center">Register for EduHub</h2>
-                    
+<body class="bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-400 min-h-screen flex items-center justify-center">
+
+    <div class="container mx-auto">
+        <div class="flex justify-center">
+            <div class="w-full max-w-md">
+                <div class="card bg-white p-8 rounded-3xl shadow-xl mt-10">
+                    <h2 class="text-center text-3xl font-bold text-indigo-600 mb-6">Register for EduHub</h2>
+
                     <!-- Success or Error Message -->
                     <?php if (isset($error)): ?>
                         <div class="alert alert-danger text-center"><?= $error ?></div>
@@ -74,31 +81,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php endif; ?>
 
                     <form action="register.php" method="POST">
-                        <div class="form-group">
-                            <label for="name">Name:</label>
-                            <input type="text" name="name" class="form-control" required>
+                        <div class="form-control mb-5">
+                            <label for="name" class="label flex items-center">
+                                <i class="fas fa-user text-indigo-500 mr-2"></i>
+                            </label>
+                            <input type="text" name="name" class="input input-bordered w-full"
+                                placeholder="Enter your name" required>
                         </div>
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="email" name="email" class="form-control" required>
+                        <div class="form-control mb-5">
+                            <label for="email" class="label flex items-center">
+                                <i class="fas fa-envelope text-indigo-500 mr-2"></i>
+                            </label>
+                            <input type="email" name="email" class="input input-bordered w-full"
+                                placeholder="Enter your email" required>
                         </div>
-                        <div class="form-group">
-                            <label for="password">Password:</label>
-                            <input type="password" name="password" class="form-control" required>
+                        <div class="form-control mb-5">
+                            <label for="password" class="label flex items-center">
+                                <i class="fas fa-lock text-indigo-500 mr-2"></i>
+                            </label>
+                            <input type="password" name="password" class="input input-bordered w-full"
+                                placeholder="Enter your password" required>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">Register</button>
+                        <button type="submit"
+                            class="btn btn-primary w-full bg-indigo-600 hover:bg-indigo-700 transition duration-200">Register</button>
                     </form>
-                    <div class="text-center mt-3">
-                        <p>Already have an account? <a href="login.php">Login here</a></p>
+                    <div class="text-center mt-4">
+                        <p class="text-sm">Already have an account? <a href="login.php"
+                                class="text-indigo-600 hover:underline">Login here</a></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Tailwind CSS & DaisyUI -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/forms/dist/forms.js"></script>
 </body>
+
 </html>

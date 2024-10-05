@@ -80,7 +80,6 @@ if (isset($_POST['buy'])) {
         }
         .book-list {
             margin: 20px auto;
-            max-width: 800px;
         }
         .book-card {
             border: 1px solid #ddd;
@@ -102,10 +101,17 @@ if (isset($_POST['buy'])) {
             background-color: #0056b3;
         }
         .book-image {
-            width: 150px;
+            width: 100%;
             height: 200px;
             object-fit: cover;
             margin-bottom: 15px;
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .card-text {
+            font-size: 14px;
         }
     </style>
 </head>
@@ -117,14 +123,15 @@ if (isset($_POST['buy'])) {
 <div class="container mt-5">
     <h1 class="mb-4 text-center">Available Books</h1>
 
-    <div class="book-list">
+    <div class="row">
         <?php
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
+                echo "<div class='col-lg-3 col-md-6 mb-4'>";
                 echo "<div class='book-card'>";
-                echo "<h3>" . htmlspecialchars($row['title']) . " by " . htmlspecialchars($row['author']) . "</h3>";
-                echo "<p>Price: $" . htmlspecialchars($row['price']) . "</p>";
-                echo "<p>Condition: " . htmlspecialchars($row['conditions']) . "</p>";
+                echo "<h3 class='card-title'>" . htmlspecialchars($row['title']) . " by " . htmlspecialchars($row['author']) . "</h3>";
+                echo "<p class='card-text'>Price: $" . htmlspecialchars($row['price']) . "</p>";
+                echo "<p class='card-text'>Condition: " . htmlspecialchars($row['conditions']) . "</p>";
 
                 // Display book image
                 if (!empty($row['image_path'])) {
@@ -142,9 +149,10 @@ if (isset($_POST['buy'])) {
                         <input type='hidden' name='buyer_id' value='" . htmlspecialchars($logged_in_user_id) . "'>
                         <input type='hidden' name='seller_id' value='" . htmlspecialchars($seller_id) . "'>
                         <input type='hidden' name='amount' value='" . htmlspecialchars($row['price']) . "'>
-                        <button type='submit' name='buy' class='btn btn-buy'>Buy Now</button>
+                        <button type='submit' name='buy' class='btn btn-buy btn-block'>Buy Now</button>
                       </form>";
-                echo "</div>";
+                echo "</div>"; // book-card
+                echo "</div>"; // col-lg-3
             }
         } else {
             echo "<p>No books available at the moment.</p>";

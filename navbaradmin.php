@@ -26,6 +26,18 @@
                 </ul>
             </li>
 
+            <!-- Courses Dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="coursesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-graduation-cap"></i> Courses
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="coursesDropdown">
+                    <li><a class="dropdown-item" href="adminbuy_courses.php">Buy Course</a></li>
+                    <li><a class="dropdown-item" href="adminmy_courses.php">My Courses</a></li>
+                
+                </ul>
+            </li>
+
             <!-- Earnings and Costs Dropdown -->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="earnCostDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -50,9 +62,6 @@
 
             <li class="nav-item">
                 <a class="nav-link" href="adminskills_development.php"><i class="fas fa-tools"></i> My Skills</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="admincourses.php"><i class="fas fa-graduation-cap"></i> Courses</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="adminranking.php"><i class="fas fa-star"></i> Ranking</a>
@@ -99,8 +108,10 @@
             <li class="nav-item">
                 <a class="nav-link" href="adminchat.php"><i class="fas fa-comments"></i> Chat</a>
             </li>
+
+           
             <li class="nav-item">
-                <a class="nav-link" href="adminlogout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </li>
         </ul>
     </div>

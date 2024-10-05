@@ -13,6 +13,12 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Start session to access session variables
+session_start();
+
+// Assuming you have a session variable for student_id after login
+$student_id = $_SESSION['student_id']; // Retrieve the actual logged-in student's ID
+
 // Handle filter form submission
 $course_filters = isset($_POST['course_filters']) ? $_POST['course_filters'] : [];
 $course_filter_query = '';
@@ -22,34 +28,44 @@ if (!empty($course_filters)) {
     $course_filter_query = " AND available_courses IN ('" . implode("', '", $course_filters) . "')";
 }
 
-// Fetch approved instructor data with optional course filtering
-$sql = "SELECT full_name, job_experience, available_courses, expected_money, class_hour, video_upload_path, created_at 
-        FROM instructors 
-        WHERE status = 'approved' $course_filter_query";
+// Handle purchase request
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['instructor_name'])) {
+    $instructor_name = $conn->real_escape_string($_POST['instructor_name']);
+    $instructor_id = $conn->real_escape_string($_POST['instructor_id']); // Get the instructor ID
+    $course_id = 1; // Replace with the actual course ID being purchased
+    $amount = 100; // Replace with the actual amount (can be fetched based on course_id)
 
-// Execute query
-$result = $conn->query($sql);
+    // Prepare and bind the purchase statement
+    $stmt = $conn->prepare("INSERT INTO course_accounts (student_id, instructor_id, course_id, amount) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("iiid", $student_id, $instructor_id, $course_id, $amount);
+
+    // Execute the statement and check for errors
+    if ($stmt->execute()) {
+        echo "<script>alert('You have purchased the course from " . htmlspecialchars($instructor_name) . "!');</script>";
+    } else {
+        echo "<script>alert('Error: " . $stmt->error . "');</script>";
+    }
+
+    $stmt->close();
+}
+
+// Fetch approved instructor data with optional course filtering, excluding already purchased courses and instructors with the same ID as the student
+$sql = "SELECT full_name, job_experience, available_courses, expected_money, class_hour, video_upload_path, created_at, instructor_id 
+        FROM instructors 
+        WHERE status = 'approved' 
+        AND instructor_id <> ? 
+        AND instructor_id NOT IN (SELECT DISTINCT instructor_id FROM course_accounts WHERE student_id = ?) 
+        $course_filter_query";
+
+// Prepare and execute the statement for fetching instructors
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("ii", $student_id, $student_id); // Bind the student ID
+$stmt->execute();
+$result = $stmt->get_result();
 
 // Check for query execution errors
 if ($result === false) {
     die("Query failed: " . $conn->error);
-}
-
-// Handle purchase request
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['instructor_name'])) {
-    $instructor_name = $conn->real_escape_string($_POST['instructor_name']);
-    
-    // Debugging line
-    echo "<script>alert('Form submitted with instructor: " . htmlspecialchars($instructor_name) . "');</script>";
-    
-    // Example: Inserting into a hypothetical purchases table
-    $purchase_sql = "INSERT INTO purchases (instructor_name, purchase_date) VALUES ('$instructor_name', NOW())";
-    
-    if ($conn->query($purchase_sql) === TRUE) {
-        echo "<script>alert('You have successfully purchased the course from " . htmlspecialchars($instructor_name) . "!');</script>";
-    } else {
-        echo "<script>alert('Error: " . $conn->error . "');</script>";
-    }
 }
 
 ?>
@@ -125,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['instructor_name'])) {
 <body>
 
     <!-- Navbar inclusion -->
-    <?php include 'navbaradmin.php'; ?>
+    <?php include 'navbar.php'; ?>
 
     <div class="container">
         <h1>Instructor Information</h1>
@@ -190,7 +206,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['instructor_name'])) {
                             <td><?php echo htmlspecialchars($row['created_at']); ?></td>
                             <td>
                                 <!-- Buy Now Button that triggers the modal -->
-                                <button class="btn btn-primary" data-toggle="modal" data-target="#buyNowModal" data-id="<?php echo htmlspecialchars($row['full_name']); ?>">Buy Now</button>
+                                <button class="btn btn-primary" data-toggle="modal" data-target="#buyNowModal" data-id="<?php echo $row['full_name']; ?>" data-instructor-id="<?php echo $row['instructor_id']; ?>">Buy Now</button>
                             </td>
                         </tr>
                     <?php endwhile; ?>
@@ -206,38 +222,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['instructor_name'])) {
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="buyNowModalLabel">Buy Course</h5>
+                    <h5 class="modal-title" id="buyNowModalLabel">Confirm Purchase</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to purchase this course from <span id="instructorName"></span>?</p>
-                    <form action="" method="POST">
-                        <input type="hidden" name="instructor_name" id="instructor_name" value="">
-                        <button type="submit" class="btn btn-success">Confirm Purchase</button>
+                    Are you sure you want to purchase the course from <strong id="instructorName"></strong>?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <form method="POST">
+                        <input type="hidden" name="instructor_id" id="instructorId">
+                        <input type="hidden" name="instructor_name" id="instructorNameHidden">
+                        <button type="submit" class="btn btn-primary">Confirm Purchase</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script>
-        // Capture the button click event to set the instructor's name in the modal
         $('#buyNowModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
             var instructorName = button.data('id'); // Extract info from data-* attributes
+            var instructorId = button.data('instructor-id');
+
+            // Update the modal's content
             var modal = $(this);
-            modal.find('#instructorName').text(instructorName); // Update the modal content
-            modal.find('#instructor_name').val(instructorName); // Set the hidden input field value
+            modal.find('#instructorName').text(instructorName);
+            modal.find('#instructorId').val(instructorId);
+            modal.find('#instructorNameHidden').val(instructorName);
         });
     </script>
 </body>
 </html>
 
 <?php
+$stmt->close();
 $conn->close();
 ?>
