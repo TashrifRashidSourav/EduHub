@@ -54,12 +54,27 @@ if (isset($_GET['edit_id'])) {
 
 // Fetch all posts and their authors from the database in descending order
 $category_filter = isset($_GET['category']) ? $_GET['category'] : 'all';
-$sql = "SELECT p.*, s.name FROM posts p JOIN students s ON p.student_id = s.student_id";
+
+// Fetch all posts
+$sql = "SELECT p.*, s.name 
+        FROM posts p 
+        JOIN students s ON p.student_id = s.student_id 
+        WHERE (p.status = 'approved' OR p.student_id = ?)";
+
+// Filter by category if needed
 if ($category_filter != 'all') {
-    $sql .= " WHERE p.category = '$category_filter'";
+    $sql .= " AND p.category = ?";
 }
 $sql .= " ORDER BY post_date DESC";
-$posts = $conn->query($sql);
+
+$stmt = $conn->prepare($sql);
+if ($category_filter != 'all') {
+    $stmt->bind_param("is", $logged_in_student_id, $category_filter); // Bind both student ID and category
+} else {
+    $stmt->bind_param("i", $logged_in_student_id); // Only bind the student ID
+}
+$stmt->execute();
+$posts = $stmt->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -207,5 +222,9 @@ $posts = $conn->query($sql);
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

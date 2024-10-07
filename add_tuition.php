@@ -1,5 +1,5 @@
 <?php
-// Database connection
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -7,14 +7,13 @@ $dbname = "eduhub";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Handle form submission
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_tuition'])) {
-    $student_id = 1; // You can dynamically set this based on the logged-in user
+    $student_id = 1; 
     $class_level = $_POST['class_level'];
     $subject = $_POST['subject'];
     $location = $_POST['location'];
@@ -26,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_tuition'])) {
             VALUES ('$student_id', '$class_level', '$subject', '$location', '$institution', '$phone_number', '$preferred_time')";
 
     if ($conn->query($sql) === TRUE) {
-        // Redirect to avoid form resubmission
+       
         header("Location: add_tuition.php");
         exit();
     } else {
@@ -57,7 +56,7 @@ $conn->close();
     </style>
 </head>
 <body>
-    <!-- Include the navbar -->
+ 
     <?php include 'navbar.php'; ?>
 
     <div class="container">

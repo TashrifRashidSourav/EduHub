@@ -2,7 +2,7 @@
 session_start();
 include 'db_connect.php';
 
-// Insert blood donor information if the form is submitted
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_donor'])) {
     $student_id = $_SESSION['student_id'];
     $location = $_POST['location'];
@@ -20,7 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_donor'])) {
     }
 }
 
-// Search blood donors based on filters
 $search_results = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
     $search_location = $_POST['search_location'];
@@ -144,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
     <div class="container">
         <h1>Blood Find Information</h1>
 
-        <!-- Donor form to add blood donation info -->
+     
         <form action="blood_find.php" method="POST">
             <label for="location">Location:</label>
             <select name="location" required>

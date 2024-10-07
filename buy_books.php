@@ -96,7 +96,7 @@ if (isset($_POST['buy'])) {
         }
         .btn-buy {
             background-color: #007bff;
-            color: white;
+            color: blue;
         }
         .btn-buy:hover {
             background-color: #0056b3;
@@ -112,7 +112,7 @@ if (isset($_POST['buy'])) {
 <body>
 
 <!-- Include Navbar -->
-<?php include 'navbaradmin.php'; ?>
+<?php include 'navbar.php'; ?>
 
 <div class="container mt-5">
     <h1 class="mb-4 text-center">Available Books</h1>

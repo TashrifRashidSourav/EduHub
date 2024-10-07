@@ -24,9 +24,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Redirect based on admin status
             header("Location: " . ($user['isadmin'] === 'yes' ? "adminindex.php" : "index.php"));
             exit();
+        } else {
+            $error = "Invalid login credentials.";
         }
+    } else {
+        $error = "No account found with that email.";
     }
-    $error = "Invalid login credentials.";
+}
+
+// Check for messages passed via URL
+$message = '';
+if (isset($_GET['msg'])) {
+    $message = htmlspecialchars($_GET['msg']);
 }
 ?>
 
@@ -68,19 +77,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php if (isset($error)): ?>
                     <p class="error text-center text-red-500"><?= htmlspecialchars($error) ?></p>
                 <?php endif; ?>
+                <?php if ($message): ?>
+                    <p class="message text-center text-green-500"><?= $message ?></p>
+                <?php endif; ?>
                 <div class="form-control w-full">
                     <label for="email" class="label text-lg font-semibold text-gray-700">
                         <span class="label-text">Email</span>
                     </label>
                     <input type="email" name="email" placeholder="Enter your email"
-                        class="input input-bordered w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        class="input input-bordered w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                 </div>
                 <div class="form-control w-full">
                     <label for="password" class="label text-lg font-semibold text-gray-700">
                         <span class="label-text">Password</span>
                     </label>
                     <input type="password" name="password" placeholder="Enter your password"
-                        class="input input-bordered w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        class="input input-bordered w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                 </div>
                 <button type="submit"
                     class="btn w-full btn-primary hover:bg-indigo-600 transition-transform transform hover:scale-105 duration-300">

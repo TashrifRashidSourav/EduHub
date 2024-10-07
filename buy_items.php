@@ -74,8 +74,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buy'])) {
         .item-list { margin: 20px auto; max-width: 800px; }
         .item-card { border: 1px solid #ddd; border-radius: 5px; padding: 15px; margin-bottom: 15px; background-color: #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.2s; }
         .item-card:hover { transform: scale(1.02); }
-        .btn-buy { background-color: #007bff; color: white; }
-        .btn-buy:hover { background-color: #0056b3; }
     </style>
 </head>
 <body>
@@ -105,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buy'])) {
                         <input type='hidden' name='buyer_id' value='" . htmlspecialchars($logged_in_user_id) . "'>
                         <input type='hidden' name='seller_id' value='" . htmlspecialchars($seller_id) . "'>
                         <input type='hidden' name='amount' value='" . htmlspecialchars($row['price']) . "'>
-                        <button type='submit' name='buy' class='btn btn-buy'>Buy Now</button>
+                        <button type='submit' name='buy' class='btn btn-primary'>Buy Now</button> <!-- Bootstrap Primary Button -->
                       </form>";
                 echo "</div>";
             }
