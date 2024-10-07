@@ -1,28 +1,26 @@
 <?php
-// Start the session
+
 session_start();
 
-// Include the database connection file
+
 include 'db_connect.php';
 
-// Check if the user is logged in (assuming login sets session variables)
 if (!isset($_SESSION['student_id'])) {
-    // Redirect to login page if the user is not logged in
+    
     header('Location: login.php');
     exit();
 }
 
-// Get the logged-in user's student ID from the session
 $student_id = $_SESSION['student_id'];
 
-// Handle the file upload
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $title = $_POST['title'];
     $author = $_POST['author'];
     $price = $_POST['price'];
     $conditions = $_POST['conditions'];
 
-    // Handle image upload
+    
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
         $image_tmp_name = $_FILES['image']['tmp_name'];
         $image_name = $_FILES['image']['name'];
@@ -32,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $image_path = null;
     }
 
-    // Handle file upload
+   
     if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
         $file_tmp_name = $_FILES['file']['tmp_name'];
         $file_name = $_FILES['file']['name'];
@@ -42,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $file_path = null;
     }
 
-    // Insert book information into the database
+   
     $sql = "INSERT INTO books (student_id, title, author, price, conditions, image_path, file_path) 
             VALUES ('$student_id', '$title', '$author', '$price', '$conditions', '$image_path', '$file_path')";
     
@@ -53,11 +51,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-// Handle book deletion
 if (isset($_GET['delete'])) {
     $book_id = $_GET['delete'];
     
-    // Get book details to delete the files
+  
     $sql = "SELECT image_path, file_path FROM books WHERE book_id = $book_id";
     $result = $conn->query($sql);
     
@@ -67,7 +64,7 @@ if (isset($_GET['delete'])) {
         if ($row['file_path']) unlink($row['file_path']);
     }
 
-    // Delete the book record from the database
+    
     $sql = "DELETE FROM books WHERE book_id = $book_id";
     
     if ($conn->query($sql) === TRUE) {
@@ -77,7 +74,7 @@ if (isset($_GET['delete'])) {
     }
 }
 
-// Fetch books of the logged-in user
+
 $sql = "SELECT * FROM books WHERE student_id = $student_id";
 $result = $conn->query($sql);
 ?>
@@ -112,7 +109,7 @@ $result = $conn->query($sql);
     </style>
 </head>
 <body class="bg-light">
-    <!-- Include Navbar -->
+
     <?php include 'navbaradmin.php'; ?>
 
     <div class="container mt-5">

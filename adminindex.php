@@ -1,8 +1,9 @@
 <?php
-session_start(); 
+session_start(); // Start the session
 
+// Check if the user is logged in
 if (!isset($_SESSION['student_id'])) {
-    header("Location: login.php"); 
+    header("Location: login.php"); // Redirect to login page
     exit();
 }
 
@@ -14,32 +15,23 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Function to get pending records based on table name
+// Function to get pending records
 function getPendingRecords($conn, $table) {
     $query = "SELECT * FROM $table WHERE status = 'pending'";
     return mysqli_query($conn, $query);
 }
 
-// Get all pending items for different sections
+// Get all pending items
 $posts = getPendingRecords($conn, 'posts');
 $books = getPendingRecords($conn, 'books');
 $blood_donation = getPendingRecords($conn, 'blood_donation');
 $items = getPendingRecords($conn, 'items');
 $instructors = getPendingRecords($conn, 'instructors');
 
-// Check for success message in URL parameter
+// Check for success messages
 $message = '';
 if (isset($_GET['status']) && $_GET['status'] == 'success') {
     $message = 'Action completed successfully.';
-}
-
-// Handle checkbox states via session
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $_SESSION['pending_posts'] = isset($_POST['pending-posts']);
-    $_SESSION['pending_books'] = isset($_POST['pending-books']);
-    $_SESSION['pending_blood'] = isset($_POST['pending-blood']);
-    $_SESSION['pending_items'] = isset($_POST['pending-items']);
-    $_SESSION['pending_instructors'] = isset($_POST['pending-instructors']);
 }
 ?>
 
@@ -84,12 +76,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .pending-section {
             display: none;
         }
-        .section-heading {
-            margin-top: 20px;
-            cursor: pointer;
-            color: #007BFF;
-            text-decoration: underline;
-        }
     </style>
     <script>
         function toggleSection(section) {
@@ -100,15 +86,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 element.style.display = "block";
             }
         }
-
-        // Auto-toggle sections based on checkbox states
-        window.onload = function() {
-            <?php if (isset($_SESSION['pending_posts']) && $_SESSION['pending_posts']) echo 'toggleSection("pending-posts");'; ?>
-            <?php if (isset($_SESSION['pending_books']) && $_SESSION['pending_books']) echo 'toggleSection("pending-books");'; ?>
-            <?php if (isset($_SESSION['pending_blood']) && $_SESSION['pending_blood']) echo 'toggleSection("pending-blood");'; ?>
-            <?php if (isset($_SESSION['pending_items']) && $_SESSION['pending_items']) echo 'toggleSection("pending-items");'; ?>
-            <?php if (isset($_SESSION['pending_instructors']) && $_SESSION['pending_instructors']) echo 'toggleSection("pending-instructors");'; ?>
-        };
     </script>
 </head>
 <body>
@@ -123,21 +100,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="message"><?php echo $message; ?></div>
         <?php endif; ?>
 
-        <form method="post">
-            <h2>Select Pending Sections to Show</h2>
-            <div>
-                <label><input type="checkbox" name="pending-posts" <?php echo (isset($_SESSION['pending_posts']) && $_SESSION['pending_posts']) ? 'checked' : ''; ?> onclick="toggleSection('pending-posts')"> Pending Posts</label>
-                <label><input type="checkbox" name="pending-books" <?php echo (isset($_SESSION['pending_books']) && $_SESSION['pending_books']) ? 'checked' : ''; ?> onclick="toggleSection('pending-books')"> Pending Books</label>
-                <label><input type="checkbox" name="pending-blood" <?php echo (isset($_SESSION['pending_blood']) && $_SESSION['pending_blood']) ? 'checked' : ''; ?> onclick="toggleSection('pending-blood')"> Pending Blood Donations</label>
-                <label><input type="checkbox" name="pending-items" <?php echo (isset($_SESSION['pending_items']) && $_SESSION['pending_items']) ? 'checked' : ''; ?> onclick="toggleSection('pending-items')"> Pending Items</label>
-                <label><input type="checkbox" name="pending-instructors" <?php echo (isset($_SESSION['pending_instructors']) && $_SESSION['pending_instructors']) ? 'checked' : ''; ?> onclick="toggleSection('pending-instructors')"> Pending Instructors</label>
-            </div>
-            <button type="submit" class="btn btn-primary">Save</button>
-        </form>
+        <h2>Select Pending Sections to Show</h2>
+        <div>
+            <label><input type="checkbox" onclick="toggleSection('pending-posts')"> Pending Posts</label>
+            <label><input type="checkbox" onclick="toggleSection('pending-books')"> Pending Books</label>
+            <label><input type="checkbox" onclick="toggleSection('pending-blood')"> Pending Blood Donations</label>
+            <label><input type="checkbox" onclick="toggleSection('pending-items')"> Pending Items</label>
+            <label><input type="checkbox" onclick="toggleSection('pending-instructors')"> Pending Instructors</label>
+        </div>
 
         <!-- Pending Posts -->
         <div id="pending-posts" class="pending-section">
-            <h2 class="section-heading" onclick="toggleSection('pending-posts')">Pending Posts</h2>
+            <h2>Pending Posts</h2>
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -167,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <!-- Pending Books -->
         <div id="pending-books" class="pending-section">
-            <h2 class="section-heading" onclick="toggleSection('pending-books')">Pending Books</h2>
+            <h2>Pending Books</h2>
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -199,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <!-- Pending Blood Donation Requests -->
         <div id="pending-blood" class="pending-section">
-            <h2 class="section-heading" onclick="toggleSection('pending-blood')">Pending Blood Donation Requests</h2>
+            <h2>Pending Blood Donation Requests</h2>
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -207,6 +181,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <th>Student ID</th>
                         <th>Blood Type</th>
                         <th>Request Date</th>
+                        <th>Patient Problem</th>
+                        <th>Location</th>
+                        <th>Phone Number</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -217,9 +195,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <td><?php echo $row['student_id']; ?></td>
                         <td><?php echo $row['blood_type']; ?></td>
                         <td><?php echo $row['request_date']; ?></td>
+                        <td><?php echo $row['patient_problem']; ?></td>
+                        <td><?php echo $row['location']; ?></td>
+                        <td><?php echo $row['phone_number']; ?></td>
+                        <td><?php echo $row['status']; ?></td>
                         <td class="actions">
-                            <a href="approve_blood_request.php?id=<?php echo $row['request_id']; ?>" class="btn btn-success btn-sm">Approve</a>
-                            <a href="reject_blood_request.php?id=<?php echo $row['request_id']; ?>" class="btn btn-danger btn-sm">Reject</a>
+                            <a href="approve_blood.php?id=<?php echo $row['request_id']; ?>" class="btn btn-success btn-sm">Approve</a>
+                            <a href="reject_blood.php?id=<?php echo $row['request_id']; ?>" class="btn btn-danger btn-sm">Reject</a>
                         </td>
                     </tr>
                     <?php } ?>
@@ -229,13 +211,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <!-- Pending Items -->
         <div id="pending-items" class="pending-section">
-            <h2 class="section-heading" onclick="toggleSection('pending-items')">Pending Items</h2>
+            <h2>Pending Items</h2>
             <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Item ID</th>
-                        <th>Item Name</th>
-                        <th>Student ID</th>
+                        <th>Title</th>
+                        <th>Author/Brand</th>
+                        <th>Price</th>
+                        <th>Condition</th>
+                        <th>Category</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -244,8 +229,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <?php while ($row = mysqli_fetch_assoc($items)) { ?>
                     <tr>
                         <td><?php echo $row['item_id']; ?></td>
-                        <td><?php echo $row['item_name']; ?></td>
-                        <td><?php echo $row['student_id']; ?></td>
+                        <td><?php echo $row['title']; ?></td>
+                        <td><?php echo $row['author_or_brand']; ?></td>
+                        <td><?php echo $row['price']; ?></td>
+                        <td><?php echo $row['conditions']; ?></td>
+                        <td><?php echo $row['category']; ?></td>
                         <td><?php echo $row['status']; ?></td>
                         <td class="actions">
                             <a href="approve_item.php?id=<?php echo $row['item_id']; ?>" class="btn btn-success btn-sm">Approve</a>
@@ -259,7 +247,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <!-- Pending Instructors -->
         <div id="pending-instructors" class="pending-section">
-            <h2 class="section-heading" onclick="toggleSection('pending-instructors')">Pending Instructors</h2>
+            <h2>Pending Instructors</h2>
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -302,5 +290,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </html>
 
 <?php
+// Close the database connection
 mysqli_close($conn);
 ?>

@@ -27,8 +27,9 @@ if (isset($_POST['buy_course'])) {
     $course_id = $_POST['course_id'];
     $instructor_id = $_POST['instructor_id'];
 
-    // Insert into purchased_courses table
+    // Insert into purchased_courses table directly
     $buy_sql = "INSERT INTO purchased_courses (course_id, instructor_id, buyer_id) VALUES ($course_id, $instructor_id, $logged_in_student_id)";
+    
     if ($conn->query($buy_sql) === TRUE) {
         echo "Course successfully purchased!";
     } else {
@@ -46,7 +47,7 @@ if (isset($_POST['buy_course'])) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<?php include 'navbar.php'; ?>
+<?php include 'navbaradmin.php'; ?>
 <div class="container mt-5">
     <h2>Available Courses for Purchase</h2>
     <table class="table">
@@ -56,7 +57,7 @@ if (isset($_POST['buy_course'])) {
                 <th>Course Name</th>
                 <th>Experience</th>
                 <th>Class Hours</th>
-                <th>Expected Price</th>
+                <th>Expected Money</th>
                 <th>Buy Now</th>
             </tr>
         </thead>

@@ -1,33 +1,32 @@
 <?php
-// db_connect.php - database connection
-$servername = "localhost";
-$username = "root";  // Change this if you have a different username
-$password = "";      // Change this if your MySQL server has a password
-$dbname = "EduHub";  // Name of the database
 
-// Create connection
+$servername = "localhost";
+$username = "root";  
+$password = "";      
+$dbname = "EduHub"; 
+
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
+
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Start session
-session_start();
-$rater_id = $_SESSION['student_id']; // Assuming user is logged in and their ID is stored in session
 
-// Handle ranking submission
+session_start();
+$rater_id = $_SESSION['student_id']; 
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $rated_id = $_POST['rated_user'];
     $rank_value = $_POST['rank_value'];
-    $rank_type = 'skill'; // You can change this based on your criteria
+    $rank_type = 'skill'; 
 
-    // Prevent self-ranking
+    
     if ($rater_id == $rated_id) {
         echo "<script>alert('You cannot rank yourself.');</script>";
     } else {
-        // Insert ranking into the database
+        
         $stmt = $conn->prepare("INSERT INTO ranking (rater_id, rated_id, rank_type, rank_value) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("iiis", $rater_id, $rated_id, $rank_type, $rank_value);
         
@@ -41,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-// Fetch all students for ranking
+
 $students = [];
 $result = $conn->query("SELECT student_id, name FROM students");
 if ($result->num_rows > 0) {
@@ -50,7 +49,7 @@ if ($result->num_rows > 0) {
     }
 }
 
-// Fetch average rankings
+
 $average_rankings = [];
 $result = $conn->query("SELECT rated_id, AVG(rank_value) AS average_rank FROM ranking GROUP BY rated_id");
 if ($result->num_rows > 0) {
@@ -110,7 +109,7 @@ if ($result->num_rows > 0) {
         <tbody>
             <?php foreach ($average_rankings as $rated_id => $avg_rank): ?>
                 <?php
-                // Fetch the student's name for display
+               
                 $student_result = $conn->query("SELECT name FROM students WHERE student_id = $rated_id");
                 $student = $student_result->fetch_assoc();
                 ?>
@@ -129,5 +128,5 @@ if ($result->num_rows > 0) {
 </html>
 
 <?php
-$conn->close(); // Close the database connection
+$conn->close(); 
 ?>

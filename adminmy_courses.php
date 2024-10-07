@@ -2,7 +2,7 @@
 session_start();
 include 'db_connect.php';
 
-// Ensure user is logged in
+
 if (!isset($_SESSION['student_id'])) {
     echo "Error: User not logged in.";
     exit();
@@ -10,7 +10,6 @@ if (!isset($_SESSION['student_id'])) {
 
 $logged_in_student_id = $_SESSION['student_id'];
 
-// Fetch courses the logged-in student has already purchased
 $purchased_sql = "
 SELECT i.full_name, c.course_name, p.purchase_date, i.video_upload_path
 FROM purchased_courses p
