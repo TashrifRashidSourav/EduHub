@@ -1,25 +1,25 @@
 <?php
-require 'db_connect.php'; // Include your database connection file
+require 'db_connect.php'; 
 
 session_start();
 
-// Check if user is logged in
+
 if (!isset($_SESSION['student_id'])) {
-    header("Location: login.php"); // Redirect to login page if not logged in
+    header("Location: login.php"); 
     exit();
 }
 
 $student_id = $_SESSION['student_id'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Check if the form fields are set and not empty
+    
     $class_range_start = isset($_POST['class_range_start']) ? $_POST['class_range_start'] : '';
     $class_range_end = isset($_POST['class_range_end']) ? $_POST['class_range_end'] : '';
     $subject = isset($_POST['subject']) ? $_POST['subject'] : '';
     $location = isset($_POST['location']) ? $_POST['location'] : '';
     $phone_number = isset($_POST['phone_number']) ? $_POST['phone_number'] : '';
 
-    // Validate the input (basic validation)
+   
     if ($class_range_start && $class_range_end && $subject && $location && $phone_number) {
         $sql = "INSERT INTO tutors (student_id, class_range_start, class_range_end, subject, location, phone_number)
                 VALUES (?, ?, ?, ?, ?, ?)";

@@ -1,30 +1,30 @@
 <?php
-// Include the database connection file
+
 include 'db_connect.php';
 
-// Start the session to get the logged-in user information
+
 session_start();
 
-// Ensure user is logged in
+
 if (!isset($_SESSION['student_id'])) {
     die("You must be logged in to access this page.");
 }
 
-$student_id = $_SESSION['student_id']; // Get student ID from session
+$student_id = $_SESSION['student_id']; 
 
-// Define upload directory paths
+
 $image_upload_dir = 'uploads/images/';
 $file_upload_dir = 'uploads/files/';
 
-// Create directories if they do not exist
+
 if (!is_dir($image_upload_dir)) {
-    mkdir($image_upload_dir, 0777, true); // Create directory with permissions
+    mkdir($image_upload_dir, 0777, true); 
 }
 if (!is_dir($file_upload_dir)) {
-    mkdir($file_upload_dir, 0777, true); // Create directory with permissions
+    mkdir($file_upload_dir, 0777, true); 
 }
 
-// Handle the file upload
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $title = $_POST['title'];
     $author_or_brand = $_POST['author_or_brand'];
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $conditions = $_POST['conditions'];
     $category = $_POST['category'];
 
-    // Handle image upload for non-study material items
+    
     $image_path = null;
     if ($category != 'Study Materials' && isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
         $image_tmp_name = $_FILES['image']['tmp_name'];
@@ -40,13 +40,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $image_path = $image_upload_dir . basename($image_name);
 
         if (move_uploaded_file($image_tmp_name, $image_path)) {
-            // Successfully uploaded
+            
         } else {
-            $image_path = null; // Failed to upload image
+            $image_path = null; 
         }
     }
 
-    // Handle file upload for study material (PDF)
+
     $file_path = null;
     if ($category == 'Study Materials' && isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
         $file_tmp_name = $_FILES['file']['tmp_name'];
@@ -54,16 +54,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $file_path = $file_upload_dir . basename($file_name);
 
         if (move_uploaded_file($file_tmp_name, $file_path)) {
-            // Successfully uploaded
+          
         } else {
-            $file_path = null; // Failed to upload file
+            $file_path = null; 
         }
     }
 
-    // Determine the correct path for file or image based on category
     $pdf_link_or_image = $category == 'Study Materials' ? $file_path : $image_path;
 
-    // Insert item information into the database
+ 
     $stmt = $conn->prepare("INSERT INTO items (student_id, title, author_or_brand, price, conditions, category, pdf_link_or_image) VALUES (?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param('issdsss', $student_id, $title, $author_or_brand, $price, $conditions, $category, $pdf_link_or_image);
 
@@ -75,11 +74,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->close();
 }
 
-// Handle item deletion
+
 if (isset($_GET['delete'])) {
     $item_id = intval($_GET['delete']);
 
-    // Get item details to delete the files
+    
     $stmt = $conn->prepare("SELECT pdf_link_or_image, category FROM items WHERE item_id = ? AND student_id = ?");
     $stmt->bind_param('ii', $item_id, $student_id);
     $stmt->execute();
@@ -104,7 +103,7 @@ if (isset($_GET['delete'])) {
     $stmt->close();
 }
 
-// Fetch items of the logged-in user
+
 $stmt = $conn->prepare("SELECT * FROM items WHERE student_id = ?");
 $stmt->bind_param('i', $student_id);
 $stmt->execute();
@@ -117,9 +116,9 @@ $result = $stmt->get_result();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload and View Items</title>
-    <!-- Bootstrap CSS -->
+   
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
+  
     <link rel="stylesheet" href="style.css">
     <style>
         body {
@@ -146,13 +145,13 @@ $result = $stmt->get_result();
     </style>
 </head>
 <body>
-    <!-- Include Navbar -->
+
     <?php include 'navbaradmin.php'; ?>
 
-    <!-- Main Content -->
+
     <div class="container">
         <h1 class="text-center mb-4">Upload Item</h1>
-        <form action="upload_items.php" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+        <form action="adminupload_items.php" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
             <div class="form-group">
                 <label for="title">Title:</label>
                 <input type="text" id="title" name="title" class="form-control" required>

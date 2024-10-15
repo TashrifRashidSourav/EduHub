@@ -1,9 +1,8 @@
 <?php
-session_start(); // Start the session
+session_start();
 
-// Check if the user is logged in
 if (!isset($_SESSION['student_id'])) {
-    header("Location: login.php"); // Redirect to login page
+    header("Location: login.php"); 
     exit();
 }
 

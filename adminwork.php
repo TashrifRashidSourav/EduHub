@@ -50,7 +50,7 @@ $stmt->close();
 <div class="container">
     <h2>Manage Your Work</h2>
 
-    <!-- Add Work Form -->
+
     <h3>Add Work</h3>
     <form method="POST">
         <div class="form-group">

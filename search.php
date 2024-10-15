@@ -86,7 +86,7 @@ $conn->close();
                             <p class="card-text">University: <?php echo htmlspecialchars($user['university']); ?></p>
                             <p class="card-text">Occupation: <?php echo htmlspecialchars($user['occupation']); ?></p>
                             <p class="card-text">Job Field: <?php echo htmlspecialchars($user['job_field']); ?></p>
-                            <a href="adminchat.php?receiver_id=<?php echo htmlspecialchars($user['student_id']); ?>&receiver_name=<?php echo urlencode($user['name']); ?>&receiver_picture=<?php echo urlencode($user['profile_picture']); ?>" class="btn btn-success">Message</a>
+                            <a href="chat.php?receiver_id=<?php echo htmlspecialchars($user['student_id']); ?>&receiver_name=<?php echo urlencode($user['name']); ?>&receiver_picture=<?php echo urlencode($user['profile_picture']); ?>" class="btn btn-success">Message</a>
 
                         </div>
                     </div>

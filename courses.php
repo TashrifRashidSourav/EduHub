@@ -47,7 +47,7 @@ if (isset($_POST['buy_course'])) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<?php include 'navbaradmin.php'; ?>
+<?php include 'navbar.php'; ?>
 <div class="container mt-5">
     <h2>Available Courses for Purchase</h2>
     <table class="table">

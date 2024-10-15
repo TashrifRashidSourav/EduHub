@@ -1,12 +1,11 @@
 <?php
 session_start();
-include 'db_connect.php'; // Assuming you have this file for database connection
-
+include 'db_connect.php'; 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $password = $_POST['password']; // Don't escape the password
+    $password = $_POST['password']; 
 
-    // Use prepared statements
+   
     $stmt = $conn->prepare("SELECT * FROM students WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -15,13 +14,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($result && $result->num_rows > 0) {
         $user = $result->fetch_assoc();
 
-        // Verify the password
+       
         if (password_verify($password, $user['password'])) {
-            // Set session variables
-            $_SESSION['student_id'] = $user['student_id']; // Ensure this is set
+            
+            $_SESSION['student_id'] = $user['student_id']; 
             $_SESSION['name'] = $user['name'];
 
-            // Redirect based on admin status
+          
             header("Location: " . ($user['isadmin'] === 'yes' ? "adminindex.php" : "index.php"));
             exit();
         } else {
@@ -32,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Check for messages passed via URL
+
 $message = '';
 if (isset($_GET['msg'])) {
     $message = htmlspecialchars($_GET['msg']);

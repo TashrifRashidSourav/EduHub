@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduHub</title>
-    <!-- Bootstrap CSS -->
+  
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css"> <!-- Link to your external CSS file if any -->
-    <!-- Google Fonts -->
+    <link rel="stylesheet" href="style.css"> 
+  
     <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
     <style>
-        /* Custom styles */
+        
         html, body {
-            overflow: hidden; /* Prevent scrolling */
-            height: 100%; /* Ensure the body takes full height */
-            margin: 0; /* Remove default margin */
+            overflow: hidden; 
+            height: 100%; 
+            margin: 0; 
         }
         body {
             background-color: #f4f4f9; /* Fallback color */
@@ -158,15 +158,14 @@
         </div>
     </main>
 
-    <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-        // Typing effect for the h1 element
+        
         const text = "WELCOME TO EduHub";
-        const typingSpeed = 100; // milliseconds
+        const typingSpeed = 100; 
         let index = 0;
 
         function type() {
@@ -177,7 +176,7 @@
             }
         }
 
-        // Start typing effect
+     
         type();
     </script>
 </body>

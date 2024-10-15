@@ -1,5 +1,5 @@
 <?php
-// Database connection
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -7,12 +7,12 @@ $dbname = "eduhub";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
+
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Handle form submission
+
 $results = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search_tuition'])) {
     $class_level = $_POST['class_level'];
@@ -53,7 +53,7 @@ $conn->close();
     </style>
 </head>
 <body>
-    <!-- Include the navbar -->
+ 
     <?php include 'navbaradmin.php'; ?>
 
     <div class="container">
