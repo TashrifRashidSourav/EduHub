@@ -2,7 +2,7 @@
 session_start();
 include 'db_connect.php';
 
-// Check if student is logged in
+
 if (!isset($_SESSION['student_id'])) {
     header("Location: login.php");
     exit();
@@ -19,11 +19,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $expected_money = $_POST['expected_money'];
     $class_hour = $_POST['class_hour'];
 
-    // Define directories for uploads
     $pdf_target_dir = 'uploads/pdf/';
     $video_target_dir = 'uploads/video/';
 
-    // Check and create directories if necessary
     if (!is_dir($pdf_target_dir)) {
         mkdir($pdf_target_dir, 0777, true);
     }
@@ -34,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $pdf_target = '';
     $video_target = '';
 
-    // Handle PDF file upload
+ 
     if (isset($_FILES['pdf_upload']) && $_FILES['pdf_upload']['error'] == UPLOAD_ERR_OK) {
         $pdf_target = $pdf_target_dir . basename($_FILES['pdf_upload']['name']);
         if (!move_uploaded_file($_FILES['pdf_upload']['tmp_name'], $pdf_target)) {
@@ -42,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // Handle video file upload
+  
     if (isset($_FILES['video_upload']) && $_FILES['video_upload']['error'] == UPLOAD_ERR_OK) {
         $video_target = $video_target_dir . basename($_FILES['video_upload']['name']);
         if (!move_uploaded_file($_FILES['video_upload']['tmp_name'], $video_target)) {
@@ -50,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // Insert data into the instructors table
+  
     $sql = "INSERT INTO instructors (student_id, full_name, job_experience, available_courses, expected_money, class_hour, pdf_upload_path, video_upload_path) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -59,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($stmt->execute()) {
         $_SESSION['success_message'] = "You have successfully applied to be an instructor!";
-        header("Location: be_an_instructor.php");
+        header("Location: adminbe_an_instructor.php");
         exit();
     } else {
         $error_message .= "Error: " . $stmt->error;
@@ -161,7 +159,7 @@ if (isset($_SESSION['success_message'])) {
             <div class="error-message"><?php echo $error_message; ?></div>
         <?php endif; ?>
 
-        <form action="be_an_instructor.php" method="POST" enctype="multipart/form-data">
+        <form action="adminbe_an_instructor.php" method="POST" enctype="multipart/form-data">
             <label for="full_name">Full Name:</label>
             <input type="text" id="full_name" name="full_name" required>
 
@@ -185,10 +183,10 @@ if (isset($_SESSION['success_message'])) {
             <label for="class_hour">Class Hour:</label>
             <input type="number" id="class_hour" name="class_hour" required>
 
-            <label for="pdf_upload">Upload PDF (Optional):</label>
+            <label for="pdf_upload">Upload Your CV:</label>
             <input type="file" id="pdf_upload" name="pdf_upload" accept=".pdf">
 
-            <label for="video_upload">Upload Video (Optional):</label>
+            <label for="video_upload">Upload Demo Class Video:</label>
             <input type="file" id="video_upload" name="video_upload" accept="video/*">
 
             <button type="submit">Submit</button>

@@ -157,7 +157,7 @@ $result = $stmt->get_result();
 
     <!-- Main Content -->
     <div class="container">
-        <h1 class="text-center mb-4">Upload Item</h1>
+        <h1 class="text-center mb-4">Sell Item</h1>
         <form action="upload_items.php" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
             <div class="form-group">
                 <label for="title">Title:</label>
@@ -165,7 +165,7 @@ $result = $stmt->get_result();
                 <div class="invalid-feedback">Please provide a title.</div>
             </div>
             <div class="form-group">
-                <label for="author_or_brand">Author or Brand:</label>
+                <label for="author_or_brand">Brand:</label>
                 <input type="text" id="author_or_brand" name="author_or_brand" class="form-control" required>
                 <div class="invalid-feedback">Please provide the author or brand.</div>
             </div>
@@ -189,11 +189,11 @@ $result = $stmt->get_result();
                 <div class="invalid-feedback">Please choose a category.</div>
             </div>
             <div class="form-group">
-                <label for="image">Upload Image (for non-Study Materials):</label>
+                <label for="image">Upload Image (Upload Your Materials Image):</label>
                 <input type="file" id="image" name="image" class="form-control-file" accept="image/*">
             </div>
             <div class="form-group">
-                <label for="file">Upload File (for Study Materials):</label>
+                <label for="file">Upload File (If any document availabe):</label>
                 <input type="file" id="file" name="file" class="form-control-file">
             </div>
             <button type="submit" class="btn btn-primary">Upload</button>

@@ -15,7 +15,7 @@
                 <a class="nav-link" href="adminposts.php"><i class="fas fa-comments"></i> Posts</a>
             </li>
 
-            <!-- Books Dropdown -->
+        
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="booksDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-book"></i> Books
@@ -26,7 +26,7 @@
                 </ul>
             </li>
 
-            <!-- Courses Dropdown -->
+            
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="coursesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-graduation-cap"></i> Courses
@@ -38,7 +38,7 @@
                 </ul>
             </li>
 
-            <!-- Earnings and Costs Dropdown -->
+           
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="earnCostDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-money-bill-wave"></i> Earnings & Costs
@@ -109,7 +109,9 @@
                 <a class="nav-link" href="adminchat.php"><i class="fas fa-comments"></i> Chat</a>
             </li>
 
-           
+            <li class="nav-item">
+                <a class="nav-link" href="adminsearch.php"><i class="fas fa-comments"></i> Search</a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </li>

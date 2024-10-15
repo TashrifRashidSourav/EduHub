@@ -4,10 +4,10 @@ include 'db_connect.php';
 
 $student_id = $_SESSION['student_id'];
 
-// Handle the form submission for a new blood donation request
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['delete_request'])) {
-        // Delete the request if 'delete_request' is set
+       
         $request_id = $_POST['request_id'];
         $delete_sql = "DELETE FROM blood_donation WHERE request_id = '$request_id' AND student_id = '$student_id'";
         
@@ -83,13 +83,12 @@ $user_requests_result = mysqli_query($conn, $user_requests_sql);
 </head>
 <body>
 
-    <!-- Include Navbar -->
+ 
     <?php include 'navbaradmin.php'; ?>
 
     <div class="container content-container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <!-- Blood Donation Request Form -->
                 <div class="form-container">
                     <h2 class="section-header">Blood Donation Request</h2>
                     <form action="blood.php" method="POST">

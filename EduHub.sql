@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 27, 2024 at 06:17 AM
+-- Generation Time: Oct 15, 2024 at 08:45 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -20,22 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `eduhub`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `admins`
---
-
-CREATE TABLE `admins` (
-  `admin_id` int(11) NOT NULL,
-  `username` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `role` enum('superadmin','moderator') NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -113,17 +97,18 @@ CREATE TABLE `books` (
 --
 
 INSERT INTO `books` (`book_id`, `student_id`, `title`, `author`, `price`, `conditions`, `image`, `file`, `status`, `created_at`, `image_path`, `file_path`, `issold`) VALUES
-(12, 1, 'Islam', 'sumi', 1000.00, 'ok', NULL, NULL, 'approved', '2024-09-18 16:09:41', 'uploads/images/image.png', 'uploads/files/011212090_Ai_Lab_Mid_assignment .pdf', 'yes'),
-(14, 1, 'Islam', 'sumi', 1000.00, 'ok', NULL, NULL, 'approved', '2024-09-18 16:39:43', 'uploads/images/image.png', 'uploads/files/011212090_Ai_Lab_Mid_assignment .pdf', 'yes'),
-(15, 1, 'Islam', 'sumi', 1000.00, 'ok', NULL, NULL, 'approved', '2024-09-18 16:42:50', 'uploads/images/image.png', 'uploads/files/011212090_Ai_Lab_Mid_assignment .pdf', 'yes'),
-(16, 1, 'sss', 'sssasa', 500.00, 'good', NULL, NULL, 'approved', '2024-09-20 03:54:46', 'uploads/images/image.png', 'uploads/files/011212090_Ai_Lab_Mid_assignment .pdf', 'yes'),
-(17, 1, 'aa', 'bb', 80.00, 'better', NULL, NULL, 'approved', '2024-09-20 04:11:13', 'uploads/images/image.png', 'uploads/files/notesstrk.pdf', 'yes'),
-(18, 1, 'aa', 'bb', 80.00, 'better', NULL, NULL, 'approved', '2024-09-20 05:25:13', 'uploads/images/image.png', 'uploads/files/notesstrk.pdf', 'yes'),
-(20, 1, 'Islam', 'Sumi', 600.00, 'better', NULL, NULL, 'approved', '2024-09-21 09:32:09', 'uploads/images/motivation.jpeg', NULL, 'yes'),
-(21, 1, 'baler boi', 'baler writer', 999.00, 'sera', NULL, NULL, 'approved', '2024-09-21 09:52:24', 'uploads/images/mirr.jpg', 'uploads/files/BDRAILWAY_TICKET202405141803465136.pdf', 'yes'),
-(22, 1, 'shauya', 'jony', 50.00, 'gu', NULL, NULL, 'approved', '2024-09-21 09:55:43', 'uploads/images/foodibd_logo.jpeg', NULL, 'yes'),
 (23, 3, 'dhon', 'bal', 10.00, 'kao', NULL, NULL, 'approved', '2024-09-21 10:01:18', 'uploads/images/image.png', 'uploads/files/assignment-1hci.pdf', 'yes'),
-(24, 1, 'shauyaaaaaaaaa', 'jony', 50.00, 'gu', NULL, NULL, 'approved', '2024-09-21 10:02:36', 'uploads/images/WhatsApp Image 2024-09-16 at 23.20.20_e4e54b4e.jpg', NULL, 'yes');
+(26, 4, 'Hello', 'h', 100.00, 'good', NULL, NULL, 'approved', '2024-10-05 15:42:06', 'uploads/images/burning_candle-wallpaper-1920x1080.jpg', 'uploads/files/BDRAILWAY_TICKET202405141803465136.pdf', 'no'),
+(27, 4, 'DB', 'RDJ', 500.00, 'torn', NULL, NULL, 'approved', '2024-10-05 15:45:27', 'uploads/images/1920x1080-567729-old-house-ruin.jpg', 'uploads/files/Alumni-Linked.pptx.pdf', 'yes'),
+(28, 4, 'DB', 'RDJ', 500.00, 'torn', NULL, NULL, 'rejected', '2024-10-05 16:49:18', 'uploads/images/1920x1080-567729-old-house-ruin.jpg', 'uploads/files/Alumni-Linked.pptx.pdf', 'no'),
+(29, 4, 'bechelor vara deua hoi nh', 'mandip ghorai', 300.00, 'new', NULL, NULL, 'rejected', '2024-10-06 13:18:56', 'uploads/images/Screenshot 2024-10-06 012109.png', 'uploads/files/Final_Report.pdf', 'no'),
+(30, 5, 'Aj Himur Biye', 'Humayun Ahmed', 120.00, '2 months old', NULL, NULL, 'approved', '2024-10-06 22:58:07', 'uploads/images/himur biye.jpeg', NULL, 'no'),
+(31, 1, 'Tomake', 'Humayun Ahmed', 240.00, 'Old', NULL, NULL, 'approved', '2024-10-07 03:44:43', 'uploads/images/tomake.jpeg', NULL, 'no'),
+(32, 1, 'Himur Ache Jol', 'Humayun Ahmed', 130.00, 'New', NULL, NULL, 'rejected', '2024-10-07 03:58:11', 'uploads/images/himuar ase jol.jpg', NULL, 'no'),
+(33, 1, 'Himur Ache Jol', 'Humayun Ahmed', 130.00, 'New', NULL, NULL, 'rejected', '2024-10-07 04:00:22', 'uploads/images/himuar ase jol.jpg', NULL, 'no'),
+(34, 1, 'Himur Ache Jol', 'Humayun Ahmed', 130.00, 'New', NULL, NULL, 'rejected', '2024-10-07 04:00:56', 'uploads/images/himuar ase jol.jpg', NULL, 'no'),
+(35, 1, 'Himur Ache Jol', 'Humayun Ahmed', 130.00, 'New', NULL, NULL, 'approved', '2024-10-07 04:01:02', NULL, NULL, 'no'),
+(36, 5, 'ytuguk', 'turykuluhi', 77764.00, 'ytfgu;gkhjg', NULL, NULL, 'approved', '2024-10-07 05:25:05', 'uploads/images/dbbboks.jpeg', 'uploads/files/POSTER_NeW.pdf', 'no');
 
 -- --------------------------------------------------------
 
@@ -147,18 +132,8 @@ CREATE TABLE `book_accounts` (
 --
 
 INSERT INTO `book_accounts` (`account_id`, `buyer_id`, `seller_id`, `book_id`, `transaction_id`, `purchase_date`, `amount`, `payment_status`) VALUES
-(16, 3, 1, 12, NULL, '2024-09-18 16:10:12', 1000.00, 'completed'),
-(17, 3, 1, 16, NULL, '2024-09-20 03:55:25', 500.00, 'completed'),
-(19, 3, 1, 17, NULL, '2024-09-20 04:11:41', 80.00, 'completed'),
-(20, 3, 1, 12, NULL, '2024-09-21 09:46:53', 1000.00, 'completed'),
-(21, 3, 1, 14, NULL, '2024-09-21 09:47:13', 1000.00, 'completed'),
-(22, 3, 1, 20, NULL, '2024-09-21 09:47:18', 600.00, 'completed'),
-(24, 3, 1, 15, NULL, '2024-09-21 09:47:25', 1000.00, 'completed'),
-(25, 3, 1, 18, NULL, '2024-09-21 09:47:29', 80.00, 'completed'),
-(26, 3, 1, 21, NULL, '2024-09-21 09:53:18', 999.00, 'completed'),
-(27, 3, 1, 22, NULL, '2024-09-21 09:56:06', 50.00, 'completed'),
-(28, 3, 1, 24, NULL, '2024-09-21 10:03:15', 50.00, 'completed'),
-(29, 1, 3, 23, NULL, '2024-09-27 04:01:54', 10.00, 'completed');
+(29, 1, 3, 23, NULL, '2024-09-27 04:01:54', 10.00, 'completed'),
+(31, 1, 4, 27, NULL, '2024-10-07 03:41:05', 500.00, 'completed');
 
 --
 -- Triggers `book_accounts`
@@ -259,7 +234,16 @@ INSERT INTO `chat` (`chat_id`, `sender_id`, `receiver_id`, `message`, `timestamp
 (18, 1, 4, 'ki holo?', '2024-09-25 10:05:10'),
 (19, 4, 1, 'kichu na', '2024-09-25 10:09:32'),
 (20, 1, 4, 'ok', '2024-09-25 10:09:38'),
-(21, 4, 1, 'what ok?', '2024-09-25 10:22:38');
+(21, 4, 1, 'what ok?', '2024-09-25 10:22:38'),
+(22, 6, 1, 'hello', '2024-10-01 10:03:27'),
+(23, 1, 6, 'what?', '2024-10-01 10:03:53'),
+(24, 6, 1, 'nothing', '2024-10-01 10:04:11'),
+(25, 1, 6, 'h', '2024-10-01 10:04:23'),
+(26, 4, 1, 'hello kemon aso?', '2024-10-05 18:28:06'),
+(27, 1, 4, 'valo na', '2024-10-05 18:28:15'),
+(28, 5, 1, 'hello', '2024-10-07 04:50:31'),
+(29, 5, 1, 'hi', '2024-10-07 05:28:39'),
+(30, 1, 5, 'whats up?', '2024-10-07 05:29:15');
 
 -- --------------------------------------------------------
 
@@ -271,15 +255,67 @@ CREATE TABLE `courses` (
   `course_id` int(11) NOT NULL,
   `instructor_id` int(11) NOT NULL,
   `course_name` enum('PowerPoint','Word','Excel','Web Frontend','Web Backend','Web Fullstack','Electronics Projects') NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `student_id` int(11) NOT NULL,
+  `price` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`course_id`, `instructor_id`, `course_name`, `created_at`) VALUES
-(1, 14, 'Excel', '2024-09-26 06:16:06');
+INSERT INTO `courses` (`course_id`, `instructor_id`, `course_name`, `created_at`, `student_id`, `price`) VALUES
+(12, 25, 'PowerPoint', '2024-10-05 12:51:59', 4, NULL),
+(13, 26, 'Word', '2024-10-07 00:16:24', 1, NULL),
+(14, 27, 'PowerPoint', '2024-10-07 00:37:04', 5, NULL),
+(15, 28, 'Excel', '2024-10-07 05:39:44', 1, NULL);
+
+--
+-- Triggers `courses`
+--
+DELIMITER $$
+CREATE TRIGGER `before_course_insert` BEFORE INSERT ON `courses` FOR EACH ROW BEGIN
+  DECLARE instructor_student_id INT;
+  
+  -- Fetch the student_id from instructors table based on the instructor_id
+  SELECT student_id INTO instructor_student_id 
+  FROM instructors 
+  WHERE instructor_id = NEW.instructor_id;
+  
+  -- Set the student_id in the new course row
+  SET NEW.student_id = instructor_student_id;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `before_course_update` BEFORE UPDATE ON `courses` FOR EACH ROW BEGIN
+  DECLARE instructor_student_id INT;
+  
+  -- Fetch the student_id from instructors table based on the instructor_id
+  SELECT student_id INTO instructor_student_id 
+  FROM instructors 
+  WHERE instructor_id = NEW.instructor_id;
+  
+  -- Set the student_id in the updated course row
+  SET NEW.student_id = instructor_student_id;
+END
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `course_account`
+--
+
+CREATE TABLE `course_account` (
+  `account_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `instructor_id` int(11) NOT NULL,
+  `course_id` int(11) NOT NULL,
+  `video_upload_path` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -314,16 +350,22 @@ CREATE TABLE `instructors` (
   `pdf_upload_path` varchar(255) DEFAULT NULL,
   `video_upload_path` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `status` enum('pending','approved','rejected') DEFAULT 'pending'
+  `status` enum('pending','approved','rejected') DEFAULT 'pending',
+  `course_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `instructors`
 --
 
-INSERT INTO `instructors` (`instructor_id`, `student_id`, `full_name`, `job_experience`, `available_courses`, `expected_money`, `class_hour`, `pdf_upload_path`, `video_upload_path`, `created_at`, `status`) VALUES
-(13, 1, 'Tashrif Rashid Sourav', '5', 'PowerPoint', 5000.00, 6, 'uploads/pdf/rijuda-somogro-1.pdf', 'uploads/video/chatting.mp4', '2024-09-21 08:48:58', 'approved'),
-(14, 1, 'John Doe', '5 years of teaching', 'Excel', 500.00, 10, '/path/to/pdf', '/path/to/video', '2024-09-26 06:16:06', 'approved');
+INSERT INTO `instructors` (`instructor_id`, `student_id`, `full_name`, `job_experience`, `available_courses`, `expected_money`, `class_hour`, `pdf_upload_path`, `video_upload_path`, `created_at`, `status`, `course_id`) VALUES
+(13, 1, 'Tashrif Rashid Sourav', '5', 'PowerPoint', 5000.00, 6, 'uploads/pdf/rijuda-somogro-1.pdf', 'uploads/video/chatting.mp4', '2024-09-21 08:48:58', 'approved', NULL),
+(14, 1, 'John Doe', '5 years of teaching', 'Excel', 500.00, 10, '/path/to/pdf', '/path/to/video', '2024-09-26 06:16:06', 'approved', NULL),
+(15, 1, 'Tashrif Rashid Sourav', '2', 'Web Frontend', 7000.00, 50, '', 'uploads/video/chatting.mp4', '2024-10-01 17:40:41', 'approved', NULL),
+(25, 4, 'mark', '50', 'PowerPoint', 500.00, 5, '', '', '2024-10-05 12:51:59', 'approved', NULL),
+(26, 1, 'Tashrif Rashid Sourav', '1', 'Word', 5000.00, 2, '', 'uploads/video/011212090 MAD.mp4', '2024-10-07 00:16:24', 'approved', NULL),
+(27, 5, 'ABV', 'AS', 'PowerPoint', 50.00, 1, '', '', '2024-10-07 00:37:04', 'approved', NULL),
+(28, 1, 'Tashrif Rashid Sourav', 'rwdf', 'Excel', 5000.00, 2, '', '', '2024-10-07 05:39:44', 'approved', NULL);
 
 --
 -- Triggers `instructors`
@@ -371,10 +413,14 @@ CREATE TABLE `items` (
 INSERT INTO `items` (`item_id`, `student_id`, `title`, `author_or_brand`, `price`, `conditions`, `category`, `pdf_link_or_image`, `status`, `created_at`, `issold`) VALUES
 (5, 1, 'arduino', 'new', 600.00, 'ok', 'Electronics', 'uploads/images/image.png', 'approved', '2024-09-20 06:16:19', 'yes'),
 (6, 1, 'arduino', 'new', 600.00, 'ok', 'Electronics', 'uploads/images/image.png', 'approved', '2024-09-20 06:19:12', 'yes'),
-(7, 1, 'arduino', 'new', 600.00, 'ok', 'Electronics', 'uploads/images/image.png', 'approved', '2024-09-20 06:21:12', 'yes'),
 (8, 1, 'arduino', 'new', 600.00, 'ok', 'Electronics', 'uploads/images/image.png', 'approved', '2024-09-20 08:02:15', 'yes'),
 (9, 1, 'arduino', 'new', 600.00, 'ok', 'Electronics', 'uploads/images/image.png', 'approved', '2024-09-20 08:05:19', 'yes'),
-(10, 1, 'arduino', 'new', 600.00, 'ok', 'Electronics', 'uploads/images/image.png', 'rejected', '2024-09-20 08:08:00', 'yes');
+(10, 1, 'arduino', 'new', 600.00, 'ok', 'Electronics', 'uploads/images/image.png', 'rejected', '2024-09-20 08:08:00', 'yes'),
+(11, 4, 'arduio', 'xml', 800.00, 'good', 'Electronics', 'uploads/images/aaa.png', 'approved', '2024-10-05 16:50:06', 'yes'),
+(12, 4, 'pendrive', 'archer', 800.00, 'well', 'Electronics', 'uploads/images/banneer.jpg', 'approved', '2024-10-05 16:51:15', 'no'),
+(13, 5, 'Arduino', 'Appel', 800.00, 'New', 'Electronics', 'uploads/images/arduino.jpeg', 'approved', '2024-10-07 00:05:38', 'no'),
+(14, 5, 'motionsensor', 'Samsung', 150.00, 'old', 'Electronics', 'uploads/images/motionsensor.jpeg', 'pending', '2024-10-07 00:06:31', 'no'),
+(15, 1, 'arduino', 'new', 10.00, 'ok', 'Electronics', NULL, 'pending', '2024-10-07 04:02:22', 'no');
 
 -- --------------------------------------------------------
 
@@ -400,10 +446,10 @@ CREATE TABLE `item_accounts` (
 INSERT INTO `item_accounts` (`account_id`, `buyer_id`, `seller_id`, `item_id`, `transaction_id`, `purchase_date`, `amount`, `payment_status`) VALUES
 (4, 3, 1, 5, NULL, '2024-09-20 06:17:01', 600.00, 'completed'),
 (5, 3, 1, 6, NULL, '2024-09-20 06:19:40', 600.00, 'completed'),
-(6, 3, 1, 7, NULL, '2024-09-20 08:01:15', 600.00, 'completed'),
 (7, 3, 1, 8, NULL, '2024-09-20 08:03:43', 600.00, 'completed'),
 (8, 3, 1, 9, NULL, '2024-09-20 08:06:00', 600.00, 'completed'),
-(9, 3, 1, 10, NULL, '2024-09-20 08:08:30', 600.00, 'completed');
+(9, 3, 1, 10, NULL, '2024-09-20 08:08:30', 600.00, 'completed'),
+(10, 5, 4, 11, NULL, '2024-10-06 21:54:57', 800.00, 'completed');
 
 -- --------------------------------------------------------
 
@@ -445,6 +491,36 @@ INSERT INTO `messages` (`message_id`, `sender_id`, `receiver_id`, `message`, `se
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `mycourse`
+--
+
+CREATE TABLE `mycourse` (
+  `mycourse_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `instructor_name` varchar(255) NOT NULL,
+  `course_name` enum('PowerPoint','Word','Excel','Web Frontend','Web Backend','Web Fullstack','Electronics Projects') NOT NULL,
+  `video_upload_path` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `owncourses`
+--
+
+CREATE TABLE `owncourses` (
+  `id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `instructor_id` int(11) NOT NULL,
+  `course_id` int(11) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `purchase_date` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `posts`
 --
 
@@ -463,7 +539,95 @@ CREATE TABLE `posts` (
 --
 
 INSERT INTO `posts` (`post_id`, `student_id`, `content`, `post_date`, `status`, `category`, `picture_path`) VALUES
-(1, 1, 'helloi', '2024-09-20 10:50:12', 'approved', 'educational', NULL);
+(1, 1, 'hello', '2024-09-20 10:50:12', 'approved', 'educational', NULL),
+(2, 1, 'ghum', '2024-10-02 12:36:02', 'approved', 'entertainment', NULL),
+(3, 1, 'hello', '2024-10-05 07:37:08', 'approved', 'educational', NULL),
+(4, 1, 'hello friends', '2024-10-05 17:08:46', 'rejected', 'entertainment', NULL),
+(5, 4, 'my name is khan', '2024-10-06 13:14:57', 'approved', 'entertainment', 'uploads/Screenshot 2024-09-28 103143.png'),
+(6, 1, '', '2024-10-06 15:15:08', 'rejected', '', NULL),
+(7, 1, '', '2024-10-06 15:15:16', 'rejected', '', NULL),
+(8, 1, '', '2024-10-06 15:15:22', 'rejected', '', NULL),
+(9, 1, '', '2024-10-06 15:41:40', 'rejected', '', NULL),
+(10, 1, '', '2024-10-06 15:41:45', 'rejected', '', NULL),
+(11, 1, '', '2024-10-06 15:41:50', 'rejected', '', NULL),
+(12, 1, '', '2024-10-06 15:42:05', 'rejected', '', NULL),
+(13, 1, '', '2024-10-06 15:43:41', 'rejected', '', NULL),
+(14, 1, '', '2024-10-06 15:43:44', 'rejected', '', NULL),
+(16, 1, '', '2024-10-06 15:44:13', 'rejected', '', NULL),
+(17, 1, '', '2024-10-06 15:44:16', 'rejected', '', NULL),
+(20, 1, 'BE Ready for project show', '2024-10-06 23:48:28', 'pending', 'educational', NULL),
+(21, 1, 'BE Ready for project show', '2024-10-06 23:48:34', 'pending', 'educational', NULL),
+(22, 5, 'ytewaduwoi\'o;sfsiljbk', '2024-10-07 05:30:27', 'pending', 'entertainment', 'uploads/calculus.jpeg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `post_ratings`
+--
+
+CREATE TABLE `post_ratings` (
+  `rating_id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `rating` int(11) NOT NULL CHECK (`rating` >= 1 and `rating` <= 5)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `post_ratings`
+--
+
+INSERT INTO `post_ratings` (`rating_id`, `post_id`, `student_id`, `rating`) VALUES
+(1, 5, 1, 3),
+(2, 4, 1, 5),
+(3, 6, 1, 2),
+(4, 1, 1, 5);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchased_courses`
+--
+
+CREATE TABLE `purchased_courses` (
+  `purchase_id` int(11) NOT NULL,
+  `course_id` int(11) NOT NULL,
+  `instructor_id` int(11) NOT NULL,
+  `buyer_id` int(11) NOT NULL,
+  `purchase_date` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `purchased_courses`
+--
+
+INSERT INTO `purchased_courses` (`purchase_id`, `course_id`, `instructor_id`, `buyer_id`, `purchase_date`) VALUES
+(1, 12, 25, 1, '2024-10-05 13:31:01'),
+(75, 13, 26, 5, '2024-10-07 01:08:30'),
+(76, 14, 27, 1, '2024-10-07 01:09:19'),
+(77, 12, 25, 5, '2024-10-07 05:32:24');
+
+--
+-- Triggers `purchased_courses`
+--
+DELIMITER $$
+CREATE TRIGGER `after_course_purchase` AFTER INSERT ON `purchased_courses` FOR EACH ROW BEGIN
+    DECLARE course_price DECIMAL(10, 2); -- Define the variable to hold the course price
+    
+    -- Assuming you have a courses table to get the course price
+    SELECT price INTO course_price FROM courses WHERE course_id = NEW.course_id;
+
+    -- Insert the transaction into the wallet table
+    INSERT INTO wallet (student_id, balance, material, `from`, created_at)
+    VALUES (
+        NEW.buyer_id,          -- student_id (buyer)
+        course_price,         -- balance (course price)
+        CONCAT('Course ID: ', NEW.course_id), -- material (you might want to customize this further)
+        NEW.instructor_id,    -- from (instructor)
+        NOW()                 -- created_at
+    );
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -473,7 +637,8 @@ INSERT INTO `posts` (`post_id`, `student_id`, `content`, `post_date`, `status`, 
 
 CREATE TABLE `ranking` (
   `ranking_id` int(11) NOT NULL,
-  `student_id` int(11) DEFAULT NULL,
+  `rater_id` int(11) DEFAULT NULL,
+  `rated_id` int(11) DEFAULT NULL,
   `rank_type` varchar(50) DEFAULT NULL,
   `rank_value` int(11) DEFAULT NULL CHECK (`rank_value` between 1 and 5)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -528,19 +693,24 @@ CREATE TABLE `students` (
   `personalized_suggestions` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `isadmin` enum('yes','no') DEFAULT 'no',
-  `profile_picture` varchar(255) DEFAULT NULL
+  `profile_picture` varchar(255) DEFAULT NULL,
+  `otp` varchar(6) DEFAULT NULL,
+  `is_verified` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `students`
 --
 
-INSERT INTO `students` (`student_id`, `name`, `email`, `password`, `profile_rank`, `career_guidance`, `personalized_suggestions`, `created_at`, `isadmin`, `profile_picture`) VALUES
-(1, 'Tashrif Rashid Sourav', 's@w', '$2y$10$Xv12mYMMi94IfppHudGNPe7ZP5VS8LKW6kaUHBuyJZDQomGkfPcIu', NULL, '', '', '2024-09-17 02:15:06', 'yes', 'uploads/profile_pictures/Screenshot 2024-09-24 094941.png'),
-(2, 'Tashrif', 'd@d', '$2y$10$DoCEQLbg4efTw1OJKa2s1.vrSGinBYuS.No9iicF5pPG9mD1cr2mK', NULL, NULL, NULL, '2024-09-17 02:59:42', 'no', NULL),
-(3, 'e', 'e@eu', '$2y$10$auzzxDAZBCdmNZDp3.LAs.Q5nNPlSc1VyYkVKAjHsJzaQf9czlYw.', NULL, '', '', '2024-09-18 15:37:41', 'no', NULL),
-(4, 'trs', 'u@U', '$2y$10$FPHSpvpO.N7f0wJptQcDbut.lm.smevuYbev.YTrC7Xx/8eexUJs2', NULL, NULL, NULL, '2024-09-22 05:23:33', 'no', NULL),
-(5, 'akash', 'a@k', '$2y$10$QDIf5.z0jTCfxwcw66DmJetSKvAqq3tB0noFEiW/Ch50v2kvfi4KK', NULL, NULL, NULL, '2024-09-27 04:06:31', 'no', NULL);
+INSERT INTO `students` (`student_id`, `name`, `email`, `password`, `profile_rank`, `career_guidance`, `personalized_suggestions`, `created_at`, `isadmin`, `profile_picture`, `otp`, `is_verified`) VALUES
+(1, 'Tashrif Rashid Sourav', 's@ww', '$2y$10$Xv12mYMMi94IfppHudGNPe7ZP5VS8LKW6kaUHBuyJZDQomGkfPcIu', NULL, '', '', '2024-09-17 02:15:06', 'yes', 'uploads/profile_pictures/Screenshot 2024-09-24 094941.png', NULL, 0),
+(2, 'Tashrif', 'd@d', '$2y$10$DoCEQLbg4efTw1OJKa2s1.vrSGinBYuS.No9iicF5pPG9mD1cr2mK', NULL, NULL, NULL, '2024-09-17 02:59:42', 'no', NULL, NULL, 0),
+(3, 'e', 'e@eu', '$2y$10$auzzxDAZBCdmNZDp3.LAs.Q5nNPlSc1VyYkVKAjHsJzaQf9czlYw.', NULL, '', '', '2024-09-18 15:37:41', 'no', NULL, NULL, 0),
+(4, 'Tanam', 'atanam72@gmail.com', '$2y$10$FPHSpvpO.N7f0wJptQcDbut.lm.smevuYbev.YTrC7Xx/8eexUJs2', NULL, NULL, NULL, '2024-09-22 05:23:33', 'no', 'uploads/profile_pictures/bangla.jpg', NULL, 0),
+(5, 'akash', 'a@k', '$2y$10$QDIf5.z0jTCfxwcw66DmJetSKvAqq3tB0noFEiW/Ch50v2kvfi4KK', NULL, NULL, NULL, '2024-09-27 04:06:31', 'no', 'uploads/pics.png', NULL, 0),
+(6, 'abcd', 'a@b', '$2y$10$TElhNp0n7I8QKJPIfUK/nOzDbJfno82Kl65RRFdHXsuBZWyZuAJp6', NULL, NULL, NULL, '2024-10-01 09:45:50', 'no', 'uploads/pics.png', NULL, 0),
+(7, 'ahmed faisal', 'n@n', '$2y$10$iMLVFrjNBQEX5NVauZDv5ONJe2DaiDhfh3jTD4SshGwVh9eEcNG6W', NULL, NULL, NULL, '2024-10-04 13:58:33', 'no', NULL, NULL, 0),
+(21, 'trss', 'faisalahmed@gmail.com', '$2y$10$FQR.mohaCYLdQ/pWteqTgOGxVVcSvnuDNo9FIZh.zgRU45drcw0cm', NULL, NULL, NULL, '2024-10-06 16:49:55', 'no', NULL, '569678', 0);
 
 -- --------------------------------------------------------
 
@@ -644,6 +814,31 @@ INSERT INTO `tutors` (`tutor_id`, `student_id`, `class_range_start`, `class_rang
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `userinformation`
+--
+
+CREATE TABLE `userinformation` (
+  `info_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `school` varchar(255) DEFAULT NULL,
+  `college` varchar(255) DEFAULT NULL,
+  `university` varchar(255) DEFAULT NULL,
+  `occupation` varchar(255) DEFAULT NULL,
+  `job_field` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `userinformation`
+--
+
+INSERT INTO `userinformation` (`info_id`, `student_id`, `school`, `college`, `university`, `occupation`, `job_field`, `created_at`) VALUES
+(1, 4, 'Taragunia High School', 'Ideal College', 'United International University', 'Student', 'University', '2024-10-05 18:08:21'),
+(16, 5, 'sirajganj school and college', '', '', '', '', '2024-10-06 22:43:25');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `wallet`
 --
 
@@ -662,8 +857,6 @@ CREATE TABLE `wallet` (
 --
 
 INSERT INTO `wallet` (`wallet_id`, `student_id`, `balance`, `material`, `from`, `buyer_name`, `created_at`) VALUES
-(1, 1, 600.00, 'arduino', 3, 'e', '2024-09-20 08:22:00'),
-(2, 1, 600.00, 'arduino', 3, 'e', '2024-09-20 08:22:00'),
 (3, 1, 600.00, 'arduino', 3, 'e', '2024-09-20 08:22:00'),
 (4, 1, 600.00, 'arduino', 3, 'e', '2024-09-20 08:22:00'),
 (5, 1, 600.00, 'arduino', 3, 'e', '2024-09-20 08:22:00'),
@@ -680,8 +873,11 @@ INSERT INTO `wallet` (`wallet_id`, `student_id`, `balance`, `material`, `from`, 
 (16, 1, 600.00, 'Islam', 3, NULL, '2024-09-21 09:50:08'),
 (17, 1, 1000.00, 'Islam', 3, NULL, '2024-09-21 09:50:08'),
 (18, 1, 80.00, 'aa', 3, NULL, '2024-09-21 09:50:08'),
-(25, 1, 50.00, 'shauyaaaaaaaaa', 3, NULL, '2024-09-21 10:03:15'),
-(26, 3, 10.00, 'dhon', 1, NULL, '2024-09-27 04:01:54');
+(27, 1, 100.00, 'arduino', 4, NULL, '2024-10-06 13:21:06'),
+(35, 5, NULL, 'Course ID: 13', 26, NULL, '2024-10-07 01:08:30'),
+(36, 1, NULL, 'Course ID: 14', 27, NULL, '2024-10-07 01:09:19'),
+(37, 4, 500.00, 'DB', 1, NULL, '2024-10-07 03:41:05'),
+(38, 5, NULL, 'Course ID: 12', 25, NULL, '2024-10-07 05:32:24');
 
 -- --------------------------------------------------------
 
@@ -713,9 +909,8 @@ INSERT INTO `wallet2` (`id`, `student_id`, `balance`, `material`, `from`, `creat
 (8, 3, 1000.00, 'Islam', 1, '2024-09-21 10:14:54'),
 (9, 3, 80.00, 'aa', 1, '2024-09-21 10:14:54'),
 (10, 3, 999.00, 'baler boi', 1, '2024-09-21 10:14:54'),
-(11, 3, 50.00, 'shauya', 1, '2024-09-21 10:14:54'),
-(12, 3, 50.00, 'shauyaaaaaaaaa', 1, '2024-09-21 10:14:54'),
-(13, 1, 10.00, 'dhon', 3, '2024-09-27 04:01:54');
+(14, 4, 100.00, 'arduino', 1, '2024-10-06 13:21:06'),
+(15, 1, 500.00, 'DB', 4, '2024-10-07 03:41:05');
 
 -- --------------------------------------------------------
 
@@ -743,14 +938,6 @@ INSERT INTO `works` (`work_id`, `student_id`, `skill_requirement`, `experience_r
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `admins`
---
-ALTER TABLE `admins`
-  ADD PRIMARY KEY (`admin_id`),
-  ADD UNIQUE KEY `username` (`username`),
-  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Indexes for table `blood_donation`
@@ -807,6 +994,15 @@ ALTER TABLE `courses`
   ADD KEY `instructor_id` (`instructor_id`);
 
 --
+-- Indexes for table `course_account`
+--
+ALTER TABLE `course_account`
+  ADD PRIMARY KEY (`account_id`),
+  ADD UNIQUE KEY `student_id` (`student_id`,`course_id`),
+  ADD UNIQUE KEY `instructor_id` (`instructor_id`),
+  ADD UNIQUE KEY `course_id` (`course_id`);
+
+--
 -- Indexes for table `freelancing`
 --
 ALTER TABLE `freelancing`
@@ -855,6 +1051,21 @@ ALTER TABLE `messages`
   ADD KEY `receiver_id` (`receiver_id`);
 
 --
+-- Indexes for table `mycourse`
+--
+ALTER TABLE `mycourse`
+  ADD PRIMARY KEY (`mycourse_id`),
+  ADD KEY `student_id` (`student_id`);
+
+--
+-- Indexes for table `owncourses`
+--
+ALTER TABLE `owncourses`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `student_id` (`student_id`),
+  ADD KEY `instructor_id` (`instructor_id`);
+
+--
 -- Indexes for table `posts`
 --
 ALTER TABLE `posts`
@@ -862,11 +1073,29 @@ ALTER TABLE `posts`
   ADD KEY `student_id` (`student_id`);
 
 --
+-- Indexes for table `post_ratings`
+--
+ALTER TABLE `post_ratings`
+  ADD PRIMARY KEY (`rating_id`),
+  ADD UNIQUE KEY `post_id` (`post_id`,`student_id`),
+  ADD KEY `student_id` (`student_id`);
+
+--
+-- Indexes for table `purchased_courses`
+--
+ALTER TABLE `purchased_courses`
+  ADD PRIMARY KEY (`purchase_id`),
+  ADD KEY `course_id` (`course_id`),
+  ADD KEY `instructor_id` (`instructor_id`),
+  ADD KEY `buyer_id` (`buyer_id`);
+
+--
 -- Indexes for table `ranking`
 --
 ALTER TABLE `ranking`
   ADD PRIMARY KEY (`ranking_id`),
-  ADD KEY `student_id` (`student_id`);
+  ADD KEY `rater_id` (`rater_id`),
+  ADD KEY `rated_id` (`rated_id`);
 
 --
 -- Indexes for table `search_index`
@@ -918,6 +1147,13 @@ ALTER TABLE `tutors`
   ADD KEY `student_id` (`student_id`);
 
 --
+-- Indexes for table `userinformation`
+--
+ALTER TABLE `userinformation`
+  ADD PRIMARY KEY (`info_id`),
+  ADD KEY `student_id` (`student_id`);
+
+--
 -- Indexes for table `wallet`
 --
 ALTER TABLE `wallet`
@@ -943,12 +1179,6 @@ ALTER TABLE `works`
 --
 
 --
--- AUTO_INCREMENT for table `admins`
---
-ALTER TABLE `admins`
-  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=787;
-
---
 -- AUTO_INCREMENT for table `blood_donation`
 --
 ALTER TABLE `blood_donation`
@@ -964,13 +1194,13 @@ ALTER TABLE `blood_find`
 -- AUTO_INCREMENT for table `books`
 --
 ALTER TABLE `books`
-  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `book_accounts`
 --
 ALTER TABLE `book_accounts`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `book_transactions`
@@ -982,13 +1212,19 @@ ALTER TABLE `book_transactions`
 -- AUTO_INCREMENT for table `chat`
 --
 ALTER TABLE `chat`
-  MODIFY `chat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `chat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `course_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `course_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `course_account`
+--
+ALTER TABLE `course_account`
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `freelancing`
@@ -1000,19 +1236,19 @@ ALTER TABLE `freelancing`
 -- AUTO_INCREMENT for table `instructors`
 --
 ALTER TABLE `instructors`
-  MODIFY `instructor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `instructor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `item_accounts`
 --
 ALTER TABLE `item_accounts`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `item_transactions`
@@ -1027,16 +1263,40 @@ ALTER TABLE `messages`
   MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
+-- AUTO_INCREMENT for table `mycourse`
+--
+ALTER TABLE `mycourse`
+  MODIFY `mycourse_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `owncourses`
+--
+ALTER TABLE `owncourses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT for table `post_ratings`
+--
+ALTER TABLE `post_ratings`
+  MODIFY `rating_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `purchased_courses`
+--
+ALTER TABLE `purchased_courses`
+  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT for table `ranking`
 --
 ALTER TABLE `ranking`
-  MODIFY `ranking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ranking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `skills`
@@ -1048,7 +1308,7 @@ ALTER TABLE `skills`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `student_skills`
@@ -1075,16 +1335,22 @@ ALTER TABLE `tutors`
   MODIFY `tutor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `userinformation`
+--
+ALTER TABLE `userinformation`
+  MODIFY `info_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
 -- AUTO_INCREMENT for table `wallet`
 --
 ALTER TABLE `wallet`
-  MODIFY `wallet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `wallet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `wallet2`
 --
 ALTER TABLE `wallet2`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `works`
@@ -1144,6 +1410,14 @@ ALTER TABLE `courses`
   ADD CONSTRAINT `courses_ibfk_1` FOREIGN KEY (`instructor_id`) REFERENCES `instructors` (`instructor_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `course_account`
+--
+ALTER TABLE `course_account`
+  ADD CONSTRAINT `course_account_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `course_account_ibfk_2` FOREIGN KEY (`instructor_id`) REFERENCES `instructors` (`instructor_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `course_account_ibfk_3` FOREIGN KEY (`course_id`) REFERENCES `courses` (`course_id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `freelancing`
 --
 ALTER TABLE `freelancing`
@@ -1186,16 +1460,45 @@ ALTER TABLE `messages`
   ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`receiver_id`) REFERENCES `students` (`student_id`);
 
 --
+-- Constraints for table `mycourse`
+--
+ALTER TABLE `mycourse`
+  ADD CONSTRAINT `mycourse_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `owncourses`
+--
+ALTER TABLE `owncourses`
+  ADD CONSTRAINT `owncourses_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `owncourses_ibfk_2` FOREIGN KEY (`instructor_id`) REFERENCES `instructors` (`instructor_id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `posts`
 --
 ALTER TABLE `posts`
   ADD CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`);
 
 --
+-- Constraints for table `post_ratings`
+--
+ALTER TABLE `post_ratings`
+  ADD CONSTRAINT `post_ratings_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`),
+  ADD CONSTRAINT `post_ratings_ibfk_2` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`);
+
+--
+-- Constraints for table `purchased_courses`
+--
+ALTER TABLE `purchased_courses`
+  ADD CONSTRAINT `purchased_courses_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`course_id`),
+  ADD CONSTRAINT `purchased_courses_ibfk_2` FOREIGN KEY (`instructor_id`) REFERENCES `instructors` (`instructor_id`),
+  ADD CONSTRAINT `purchased_courses_ibfk_3` FOREIGN KEY (`buyer_id`) REFERENCES `students` (`student_id`);
+
+--
 -- Constraints for table `ranking`
 --
 ALTER TABLE `ranking`
-  ADD CONSTRAINT `ranking_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`);
+  ADD CONSTRAINT `ranking_ibfk_1` FOREIGN KEY (`rater_id`) REFERENCES `students` (`student_id`),
+  ADD CONSTRAINT `ranking_ibfk_2` FOREIGN KEY (`rated_id`) REFERENCES `students` (`student_id`);
 
 --
 -- Constraints for table `search_index`
@@ -1228,11 +1531,16 @@ ALTER TABLE `tutors`
   ADD CONSTRAINT `tutors_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`);
 
 --
+-- Constraints for table `userinformation`
+--
+ALTER TABLE `userinformation`
+  ADD CONSTRAINT `userinformation_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `wallet`
 --
 ALTER TABLE `wallet`
-  ADD CONSTRAINT `wallet_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`),
-  ADD CONSTRAINT `wallet_ibfk_2` FOREIGN KEY (`from`) REFERENCES `students` (`student_id`);
+  ADD CONSTRAINT `wallet_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`);
 
 --
 -- Constraints for table `works`

@@ -1,61 +1,86 @@
 <?php
-session_start();
-include 'db_connect.php';
 
-$student_id = $_SESSION['student_id'];
+$servername = "localhost";
+$username = "root";  
+$password = "";      
+$dbname = "EduHub";  
 
-// Fetch rankings of the logged-in user
-$sql = "SELECT rank_type, rank_value FROM ranking WHERE student_id = '$student_id'";
-$result = mysqli_query($conn, $sql);
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$student_data = [];
+$sql = "SELECT s.student_id, s.name, 
+               SUM(CASE WHEN p.category = 'educational' AND p.status = 'approved' THEN 1 ELSE 0 END) AS total_educational_posts,
+               SUM(CASE WHEN p.category = 'entertainment' AND p.status = 'approved' THEN 1 ELSE 0 END) AS total_entertainment_posts,
+               SUM(CASE WHEN p.category = 'professional' AND p.status = 'approved' THEN 1 ELSE 0 END) AS total_professional_posts,
+               COUNT(CASE WHEN p.status = 'approved' THEN p.post_id ELSE NULL END) AS total_posts
+        FROM students s
+        LEFT JOIN posts p ON s.student_id = p.student_id
+        GROUP BY s.student_id, s.name
+        ORDER BY total_posts DESC";
+
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $student_data[] = $row;
+    }
+}
+
 ?>
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Ranking</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Contributer</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Your Rankings</h1>
-    <table border="1">
-        <tr>
-            <th>Rank Type</th>
-            <th>Rank Value</th>
-        </tr>
-        <?php while ($row = mysqli_fetch_assoc($result)): ?>
-        <tr>
-            <td><?= $row['rank_type'] ?></td>
-            <td><?= $row['rank_value'] ?></td>
-        </tr>
-        <?php endwhile; ?>
-    </table>
-
-    <h2>Rate Other Students</h2>
-    <form action="rate_student.php" method="POST">
-        <label for="rated_student_id">Select Student:</label>
-        <select name="rated_student_id" required>
+<?php include 'navbar.php'; ?>
+<div class="container mt-5">
+    <h2>Leaderboard</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>User Name</th>
+                <th>Total Approved Posts</th>
+                <th>Educational Posts</th>
+                <th>Entertainment Posts</th>
+                <th>Professional Posts</th>
+            </tr>
+        </thead>
+        <tbody>
             <?php
-            // Fetch all students except the logged-in user for rating
-            $students_sql = "SELECT student_id, name FROM students WHERE student_id != '$student_id'";
-            $students_result = mysqli_query($conn, $students_sql);
-            while ($student = mysqli_fetch_assoc($students_result)): ?>
-                <option value="<?= $student['student_id'] ?>"><?= $student['name'] ?></option>
-            <?php endwhile; ?>
-        </select><br>
+            $rank = 1;
+            foreach ($student_data as $student): 
+                $total_posts = $student['total_posts'] ?? 0;
+                $educational_posts = $student['total_educational_posts'] ?? 0;
+                $entertainment_posts = $student['total_entertainment_posts'] ?? 0;
+                $professional_posts = $student['total_professional_posts'] ?? 0;
+            ?>
+            <tr>
+                <td><?php echo $rank++; ?></td>
+                <td><?php echo htmlspecialchars($student['name']); ?></td>
+                <td><?php echo $total_posts; ?></td>
+                <td><?php echo $educational_posts; ?></td>
+                <td><?php echo $entertainment_posts; ?></td>
+                <td><?php echo $professional_posts; ?></td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
 
-        <label for="rank_type">Rank Type:</label>
-        <select name="rank_type" required>
-            <option value="PowerPoint">PowerPoint</option>
-            <option value="Word">Word</option>
-            <option value="Excel">Excel</option>
-            <option value="Web Development">Web Development</option>
-            <option value="Backend">Backend</option>
-            <option value="Frontend">Frontend</option>
-            <option value="Fullstack">Fullstack</option>
-        </select><br>
-
-        <label for="rank_value">Rank Value (1 to 5):</label>
-        <input type="number" name="rank_value" min="1" max="5" required><br>
-
-        <button type="submit">Submit Rating</button>
-    </form>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+<?php
+$conn->close(); 
+?>

@@ -1,6 +1,19 @@
 <?php
+// Start the session
+session_start();
+
 // Include the database connection file
 include 'db_connect.php';
+
+// Check if the user is logged in (assuming login sets session variables)
+if (!isset($_SESSION['student_id'])) {
+    // Redirect to login page if the user is not logged in
+    header('Location: login.php');
+    exit();
+}
+
+// Get the logged-in user's student ID from the session
+$student_id = $_SESSION['student_id'];
 
 // Handle the file upload
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -30,7 +43,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Insert book information into the database
-    $student_id = 1; // Replace with actual student ID from session or login
     $sql = "INSERT INTO books (student_id, title, author, price, conditions, image_path, file_path) 
             VALUES ('$student_id', '$title', '$author', '$price', '$conditions', '$image_path', '$file_path')";
     
@@ -66,7 +78,6 @@ if (isset($_GET['delete'])) {
 }
 
 // Fetch books of the logged-in user
-$student_id = 1; // Replace with actual student ID from session or login
 $sql = "SELECT * FROM books WHERE student_id = $student_id";
 $result = $conn->query($sql);
 ?>

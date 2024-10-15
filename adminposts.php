@@ -1,22 +1,19 @@
 <?php
-// Include the database connection and session start
+
 include 'db_connect.php';
 session_start();
 
-// Get the logged-in student's ID from session
 $logged_in_student_id = $_SESSION['student_id'];
 
-// Initialize variables for edit mode
+
 $edit_mode = false;
 $post_to_edit = null;
 
-// Handle form submission for new post or updating a post
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $student_id = $logged_in_student_id; // Use the logged-in student's ID
+    $student_id = $logged_in_student_id; 
     $content = $_POST['content'];
     $category = $_POST['category'];
 
-    // Handle file upload
     $target_file = null;
     if (isset($_FILES['picture']) && $_FILES['picture']['error'] == 0) {
         $target_dir = "uploads/";
@@ -25,14 +22,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (isset($_POST['post_id']) && $_POST['post_id']) {
-        // Edit existing post
+       
         $post_id = $_POST['post_id'];
         $sql = "UPDATE posts SET content = ?, category = ?, picture_path = ? WHERE post_id = ? AND student_id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sssii", $content, $category, $target_file, $post_id, $student_id);
         $stmt->execute();
     } else {
-        // Insert new post
+     
         $sql = "INSERT INTO posts (student_id, content, category, picture_path) VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("isss", $student_id, $content, $category, $target_file);
@@ -40,13 +37,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Handle request to edit an existing post
 if (isset($_GET['edit_id'])) {
     $edit_mode = true;
     $edit_id = $_GET['edit_id'];
     $sql = "SELECT * FROM posts WHERE post_id = ? AND student_id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ii", $edit_id, $logged_in_student_id); // Ensure the post belongs to the logged-in user
+    $stmt->bind_param("ii", $edit_id, $logged_in_student_id); 
     $stmt->execute();
     $result = $stmt->get_result();
     $post_to_edit = $result->fetch_assoc();
@@ -54,12 +50,27 @@ if (isset($_GET['edit_id'])) {
 
 // Fetch all posts and their authors from the database in descending order
 $category_filter = isset($_GET['category']) ? $_GET['category'] : 'all';
-$sql = "SELECT p.*, s.name FROM posts p JOIN students s ON p.student_id = s.student_id";
+
+// Fetch all posts
+$sql = "SELECT p.*, s.name 
+        FROM posts p 
+        JOIN students s ON p.student_id = s.student_id 
+        WHERE (p.status = 'approved' OR p.student_id = ?)";
+
+// Filter by category if needed
 if ($category_filter != 'all') {
-    $sql .= " WHERE p.category = '$category_filter'";
+    $sql .= " AND p.category = ?";
 }
 $sql .= " ORDER BY post_date DESC";
-$posts = $conn->query($sql);
+
+$stmt = $conn->prepare($sql);
+if ($category_filter != 'all') {
+    $stmt->bind_param("is", $logged_in_student_id, $category_filter); // Bind both student ID and category
+} else {
+    $stmt->bind_param("i", $logged_in_student_id); // Only bind the student ID
+}
+$stmt->execute();
+$posts = $stmt->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -207,5 +218,9 @@ $posts = $conn->query($sql);
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

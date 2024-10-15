@@ -1,11 +1,16 @@
 <?php
 session_start();
-require 'db_connect.php'; // Include your database connection file
+require 'db_connect.php'; 
 
-// Assuming the user is logged in and we have the student_id in the session
+if (!isset($_SESSION['student_id'])) {
+    header("Location: login.php"); 
+    exit();
+}
+
+
 $student_id = $_SESSION['student_id'];
 
-// Fetch user information from students table
+
 $sql_user = "SELECT name, email, profile_picture FROM students WHERE student_id = ?";
 $stmt_user = $conn->prepare($sql_user);
 $stmt_user->bind_param("i", $student_id);
@@ -13,15 +18,13 @@ $stmt_user->execute();
 $result_user = $stmt_user->get_result();
 $user = $result_user->fetch_assoc();
 
-// Fetch user information from UserInformation table
-$sql_info = "SELECT school, college, university, occupation, job_field FROM UserInformation WHERE student_id = ?";
+$sql_info = "SELECT school, college, university, occupation, job_field FROM userinformation WHERE student_id = ?";
 $stmt_info = $conn->prepare($sql_info);
 $stmt_info->bind_param("i", $student_id);
 $stmt_info->execute();
 $result_info = $stmt_info->get_result();
 $info = $result_info->fetch_assoc();
 
-// Check if user information exists, if not initialize it
 if (!$info) {
     $info = [
         'school' => '',
@@ -32,55 +35,81 @@ if (!$info) {
     ];
 }
 
-// Handle form submission for editing information
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Get posted data
-    $name = !empty($_POST['name']) ? $_POST['name'] : $user['name'];
-    $email = !empty($_POST['email']) ? $_POST['email'] : $user['email'];
-    $school = $_POST['school'] ?? '';
-    $college = $_POST['college'] ?? '';
-    $university = $_POST['university'] ?? '';
-    $occupation = $_POST['occupation'] ?? '';
-    $job_field = $_POST['job_field'] ?? '';
 
-    // Update students table (name and email) only if the user entered a value, else retain old data
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    
+    $name = !empty($_POST['name']) ? trim($_POST['name']) : $user['name'];
+    $email = !empty($_POST['email']) ? trim($_POST['email']) : $user['email'];
+    $school = !empty($_POST['school']) ? trim($_POST['school']) : $info['school'];
+    $college = !empty($_POST['college']) ? trim($_POST['college']) : $info['college'];
+    $university = !empty($_POST['university']) ? trim($_POST['university']) : $info['university'];
+    $occupation = !empty($_POST['occupation']) ? trim($_POST['occupation']) : $info['occupation'];
+    $job_field = !empty($_POST['job_field']) ? trim($_POST['job_field']) : $info['job_field'];
+
+   
     $sql_update_user = "UPDATE students SET name = ?, email = ? WHERE student_id = ?";
     $stmt_update_user = $conn->prepare($sql_update_user);
     $stmt_update_user->bind_param("ssi", $name, $email, $student_id);
 
-    // Update or insert UserInformation (optional fields)
-    $sql_update_info = "INSERT INTO UserInformation (student_id, school, college, university, occupation, job_field)
-                        VALUES (?, ?, ?, ?, ?, ?)
-                        ON DUPLICATE KEY UPDATE 
-                        school = VALUES(school), 
-                        college = VALUES(college), 
-                        university = VALUES(university), 
-                        occupation = VALUES(occupation), 
-                        job_field = VALUES(job_field)";
+
+    $sql_update_info = "UPDATE userinformation SET 
+                        school = ?, 
+                        college = ?, 
+                        university = ?, 
+                        occupation = ?, 
+                        job_field = ? 
+                        WHERE student_id = ?";
     
     $stmt_update_info = $conn->prepare($sql_update_info);
     $stmt_update_info->bind_param(
-        "isssss", 
-        $student_id, 
+        "sssssi", 
         $school, 
         $college, 
         $university, 
         $occupation, 
-        $job_field
+        $job_field,
+        $student_id
     );
 
-    // Execute updates
-    if ($stmt_update_user->execute() && $stmt_update_info->execute()) {
-        echo "<script>alert('Information updated successfully!');</script>";
-        // Refresh the page to fetch updated info
-        header("Refresh:0");
-    } else {
-        echo "<script>alert('Error updating information: " . $stmt_update_user->error . "');</script>";
+    $upload_directory = 'uploads/';
+    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == UPLOAD_ERR_OK) {
+        $file_tmp = $_FILES['profile_picture']['tmp_name'];
+        $file_name = basename($_FILES['profile_picture']['name']);
+        $file_path = $upload_directory . $file_name;
+
+        
+        if (move_uploaded_file($file_tmp, $file_path)) {
+           
+            $sql_update_picture = "UPDATE students SET profile_picture = ? WHERE student_id = ?";
+            $stmt_update_picture = $conn->prepare($sql_update_picture);
+            $stmt_update_picture->bind_param("si", $file_path, $student_id);
+            $stmt_update_picture->execute();
+            $stmt_update_picture->close();
+        } else {
+            echo "<script>alert('Error uploading profile picture.');</script>";
+        }
     }
 
-    $stmt_update_user->close();
-    $stmt_update_info->close();
+    
+    $user_update_success = $stmt_update_user->execute();
+    $info_update_success = $stmt_update_info->execute();
+
+    
+    if ($user_update_success || $info_update_success) {
+       
+        $info['school'] = $school;
+        $info['college'] = $college;
+        $info['university'] = $university;
+        $info['occupation'] = $occupation;
+        $info['job_field'] = $job_field;
+
+       
+        echo "<script>alert('Information updated successfully!');</script>";
+    } else {
+        echo "<script>alert('Error updating information: " . $stmt_update_user->error . " " . $stmt_update_info->error . "');</script>";
+    }
 }
+
 
 $stmt_user->close();
 $stmt_info->close();
@@ -96,7 +125,6 @@ $conn->close();
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-          
             background-color: #f8f9fa;
         }
         .profile-header {
@@ -117,11 +145,11 @@ $conn->close();
 <div class="container">
     <div class="profile-header text-center">
         <h2><?php echo htmlspecialchars($user['name']); ?>'s Profile</h2>
-        <img src="<?php echo $user['profile_picture'] ?: 'default-profile.png'; ?>" alt="Profile Picture" class="profile-img">
+        <img src="<?php echo htmlspecialchars($user['profile_picture'] ?: 'default-profile.png'); ?>" alt="Profile Picture" class="profile-img">
         <p>Email: <?php echo htmlspecialchars($user['email']); ?></p>
     </div>
 
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="name">Name:</label>
             <input type="text" class="form-control" id="name" name="name" value="<?php echo htmlspecialchars($user['name']); ?>">
@@ -149,6 +177,10 @@ $conn->close();
         <div class="form-group">
             <label for="job_field">Job Field:</label>
             <input type="text" class="form-control" id="job_field" name="job_field" value="<?php echo htmlspecialchars($info['job_field']); ?>">
+        </div>
+        <div class="form-group">
+            <label for="profile_picture">Profile Picture:</label>
+            <input type="file" class="form-control" id="profile_picture" name="profile_picture" accept="image/*">
         </div>
         <button type="submit" class="btn btn-primary">Update Information</button>
     </form>

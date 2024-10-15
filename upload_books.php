@@ -154,7 +154,7 @@ $result = $stmt->get_result();
 
     <!-- Main Content -->
     <div class="container">
-        <h1 class="text-center mb-4">Upload Book</h1>
+        <h1 class="text-center mb-4">Sell Book</h1>
         <form action="upload_books.php" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
             <div class="form-group">
                 <label for="title">Title:</label>

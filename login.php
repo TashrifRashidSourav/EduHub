@@ -1,12 +1,11 @@
 <?php
 session_start();
-include 'db_connect.php'; // Assuming you have this file for database connection
-
+include 'db_connect.php'; 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $password = $_POST['password']; // Don't escape the password
+    $password = $_POST['password']; 
 
-    // Use prepared statements
+   
     $stmt = $conn->prepare("SELECT * FROM students WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -15,18 +14,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($result && $result->num_rows > 0) {
         $user = $result->fetch_assoc();
 
-        // Verify the password
+       
         if (password_verify($password, $user['password'])) {
-            // Set session variables
-            $_SESSION['student_id'] = $user['student_id']; // Ensure this is set
+            
+            $_SESSION['student_id'] = $user['student_id']; 
             $_SESSION['name'] = $user['name'];
 
-            // Redirect based on admin status
+          
             header("Location: " . ($user['isadmin'] === 'yes' ? "adminindex.php" : "index.php"));
             exit();
+        } else {
+            $error = "Invalid login credentials.";
         }
+    } else {
+        $error = "No account found with that email.";
     }
-    $error = "Invalid login credentials.";
+}
+
+
+$message = '';
+if (isset($_GET['msg'])) {
+    $message = htmlspecialchars($_GET['msg']);
 }
 ?>
 
@@ -68,19 +76,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php if (isset($error)): ?>
                     <p class="error text-center text-red-500"><?= htmlspecialchars($error) ?></p>
                 <?php endif; ?>
+                <?php if ($message): ?>
+                    <p class="message text-center text-green-500"><?= $message ?></p>
+                <?php endif; ?>
                 <div class="form-control w-full">
                     <label for="email" class="label text-lg font-semibold text-gray-700">
                         <span class="label-text">Email</span>
                     </label>
                     <input type="email" name="email" placeholder="Enter your email"
-                        class="input input-bordered w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        class="input input-bordered w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                 </div>
                 <div class="form-control w-full">
                     <label for="password" class="label text-lg font-semibold text-gray-700">
                         <span class="label-text">Password</span>
                     </label>
                     <input type="password" name="password" placeholder="Enter your password"
-                        class="input input-bordered w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        class="input input-bordered w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                 </div>
                 <button type="submit"
                     class="btn w-full btn-primary hover:bg-indigo-600 transition-transform transform hover:scale-105 duration-300">
