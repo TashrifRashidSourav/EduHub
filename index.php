@@ -34,7 +34,7 @@
             /* background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%); */
             overflow: hidden;
 
-            background: url('./images/bg2.jpg') no-repeat center center fixed;
+            background: url('./images/bg5.gif') no-repeat center center fixed;
   background-size: cover;
   min-height: 100vh;
   margin: 0;
@@ -387,7 +387,10 @@
     <section class="hero-section">
         <div class="hero-content">
             <h1 class="hero-title" id="typingEffect"></h1>
-            <p class="hero-subtitle">Transform your learning journey with our comprehensive educational platform. Access courses, connect with tutors, and join a thriving community of learners.</p>
+            <p class="hero-subtitle" style="color:rgb(255, 255, 255); font-weight: bold;">
+  Transform your learning journey with our comprehensive educational platform. Access courses, connect with tutors, and join a thriving community of learners.
+</p>
+
             <div>
                 <a href="#services" class="cta-button">Explore Services</a>
                 <a href="/EduHub/login.php" class="cta-button cta-secondary">Get Started</a>
