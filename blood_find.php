@@ -138,7 +138,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
     </style>
 </head>
 <body>
-
+<iframe src="curved-background.html"
+          style="position: fixed; z-index: -1; border: none; width: 100vw; height: 100vh;">
+  </iframe>
     <?php include 'navbar.php'; ?>
     
     <div class="container">
@@ -229,6 +231,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
             </div>
         <?php endif; ?>
     </div>
+    <div id="footer-placeholder"></div>
 
+<script>
+  fetch('footer.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+    });
+</script>
 </body>
 </html>

@@ -31,8 +31,15 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+            /* background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%); */
             overflow: hidden;
+
+            background: url('./images/bg2.jpg') no-repeat center center fixed;
+  background-size: cover;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+
         }
 
         .hero-section::before {
@@ -518,7 +525,7 @@
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2024 EduHub. All rights reserved. Built with passion for education.</p>
+                <p>&copy; 2025 EduHub. All rights reserved. Built with passion for education.</p>
             </div>
         </div>
     </footer>

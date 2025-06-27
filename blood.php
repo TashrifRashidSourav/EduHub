@@ -83,6 +83,10 @@ $user_requests_result = mysqli_query($conn, $user_requests_sql);
 </head>
 <body>
 
+<iframe src="curved-background.html"
+          style="position: fixed; z-index: -1; border: none; width: 100vw; height: 100vh;">
+  </iframe>
+
     <!-- Include Navbar -->
     <?php include 'navbar.php'; ?>
 
@@ -175,7 +179,15 @@ $user_requests_result = mysqli_query($conn, $user_requests_sql);
             </div>
         </div>
     </div>
+    <div id="footer-placeholder"></div>
 
+<script>
+  fetch('footer.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+    });
+</script>
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

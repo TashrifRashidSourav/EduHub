@@ -529,6 +529,10 @@ $conn->close();
     </style>
 </head>
 <body>
+<iframe src="curved-background.html"
+          style="position: fixed; z-index: -1; border: none; width: 100vw; height: 100vh;">
+  </iframe>
+
     <?php include 'navbar.php'; ?>
     
     <div class="profile-container">
