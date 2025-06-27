@@ -126,5 +126,16 @@ $conn->close();
         </div>
         <?php endif; ?>
     </div>
+
+    <div id="footer-placeholder"></div>
+
+<script>
+  fetch('footer.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+    });
+</script>
+
 </body>
 </html>

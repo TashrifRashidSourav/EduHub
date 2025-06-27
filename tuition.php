@@ -38,5 +38,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <button type="submit">Submit Suggestion</button>
     </form>
+    <div id="footer-placeholder"></div>
+
+<script>
+  fetch('footer.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+    });
+</script>
+
 </body>
 </html>

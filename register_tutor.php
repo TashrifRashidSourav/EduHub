@@ -167,6 +167,15 @@ $conn->close();
             <button type="submit">Register</button>
         </form>
     </div>
+    <div id="footer-placeholder"></div>
+
+<script>
+  fetch('footer.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+    });
+</script>
 
 </body>
 </html>
