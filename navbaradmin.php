@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Dashboard Navbar</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -56,14 +56,11 @@
       text-decoration: none;
       font-weight: 500;
       transition: color 0.2s ease-in-out;
+      cursor: pointer;
     }
 
     .navbar ul li a:hover {
       color: var(--hover-color);
-    }
-
-    .dropdown {
-      cursor: pointer;
     }
 
     .dropdown-menu {
@@ -71,7 +68,7 @@
       position: absolute;
       top: 120%;
       left: 0;
-      background-color:rgb(0, 0, 0);
+      background-color: rgb(0, 0, 0);
       border-radius: 8px;
       min-width: 180px;
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
@@ -89,11 +86,11 @@
     }
 
     .dropdown-menu a:hover {
-      background-color:rgb(19, 54, 89);
+      background-color: rgb(19, 54, 89);
       color: var(--primary-color);
     }
 
-    .navbar ul li:hover .dropdown-menu {
+    .dropdown.open .dropdown-menu {
       display: block;
     }
 
@@ -139,22 +136,25 @@
     </div>
     <ul id="nav-menu">
       <li><a href="adminindex.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-      <li class="dropdown">
-        <a><i class="fas fa-user-cog"></i> Manage</a>
+      
+      <li class="dropdown" id="manageDropdown">
+        <a onclick="toggleDropdown('manageDropdown')"><i class="fas fa-user-cog"></i> Manage</a>
         <div class="dropdown-menu">
-          <a  href="adminposts.php" >Notice</a>
+          <a href="adminposts.php">Notice</a>
           <a href="#">Roles</a>
           <a href="#">Permissions</a>
         </div>
       </li>
-      <li class="dropdown">
-        <a><i class="fas fa-database"></i> Data</a>
+
+      <li class="dropdown" id="dataDropdown">
+        <a onclick="toggleDropdown('dataDropdown')"><i class="fas fa-database"></i> Data</a>
         <div class="dropdown-menu">
           <a href="#">Logs</a>
           <a href="#">Backups</a>
           <a href="#">Reports</a>
         </div>
       </li>
+
       <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
       <li><a href="logout.php" class="profile-icon"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
@@ -163,8 +163,28 @@
   <script>
     const toggle = document.getElementById('menu-toggle');
     const menu = document.getElementById('nav-menu');
+
     toggle.addEventListener('click', () => {
       menu.classList.toggle('show');
+    });
+
+    function toggleDropdown(id) {
+      const dropdown = document.getElementById(id);
+      dropdown.classList.toggle('open');
+
+      // Close other dropdowns
+      document.querySelectorAll('.dropdown').forEach(el => {
+        if (el.id !== id) {
+          el.classList.remove('open');
+        }
+      });
+    }
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.dropdown')) {
+        document.querySelectorAll('.dropdown').forEach(el => el.classList.remove('open'));
+      }
     });
   </script>
 </body>
