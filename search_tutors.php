@@ -1,7 +1,6 @@
 <?php
-require 'db_connect.php'; // Include your database connection file
+require 'db_connect.php';
 
-// Fetch subjects for dropdown
 $subjects = ['Science', 'Math', 'English', 'Biology', 'Economics', 'Chemistry', 'Physics'];
 
 $results = [];
@@ -46,146 +45,208 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Find Tutors</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
             margin: 0;
             padding: 0;
+            overflow-x: hidden;
         }
 
-        .container {
-            width: 70%;
-            margin: 20px auto;
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-        }
-
-        h1, h2 {
+        .hero-section {
+            background: linear-gradient(135deg, rgba(30, 60, 114, 0.95) 0%, rgba(42, 82, 152, 0.95) 100%);
+            padding: 100px 20px 60px;
             text-align: center;
-            color: #333;
+            position: relative;
         }
 
-        form {
-            display: flex;
-            flex-direction: column;
+        .hero-icon {
+            font-size: 4rem;
+            color: #ffd700;
             margin-bottom: 20px;
+            animation: pulse 2s infinite;
         }
 
-        label {
-            margin-top: 10px;
-            font-weight: bold;
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
         }
 
-        select, input[type="submit"] {
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
-        input[type="submit"] {
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
+        .hero-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+
+        .main-container {
+            max-width: 900px;
+            margin: -40px auto 50px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(0,0,0,0.3);
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 15px;
+            background-color: rgba(255,255,255,0.15);
+            color: #fff;
             border: none;
-            padding: 10px;
-            margin-top: 20px;
         }
 
-        input[type="submit"]:hover {
-            background-color: #0056b3;
+        .form-control::placeholder {
+            color: #ddd;
         }
 
-        .table {
-            margin-top: 20px;
+        .form-control:focus {
+            background-color: rgba(255,255,255,0.2);
+            outline: none;
+            box-shadow: 0 0 10px #ffd700;
         }
 
-        .table th, .table td {
+        .btn-search {
+            background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #000;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-search:hover {
+            background: linear-gradient(135deg, #ffd200, #f7971e);
+        }
+
+        .results-table {
+            margin-top: 40px;
+        }
+
+        .results-table table {
+            width: 100%;
+            background-color: rgba(255,255,255,0.95);
+            color: #000;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .results-table th {
+            background-color: #1e3c72;
+            color: black;
+        }
+
+        .results-table td, .results-table th {
+            padding: 15px;
             text-align: center;
-        }
-
-        .error {
-            color: red;
-            text-align: center;
-            margin-top: 20px;
         }
 
         .message {
-            margin-top: 20px;
+            background-color: #ffcccc;
+            padding: 15px;
+            border-radius: 10px;
             text-align: center;
+            color: #000;
+            font-weight: bold;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
+<?php include 'navbar.php'; ?>
 
-    <?php include 'navbar.php'; ?>
+<div class="hero-section">
+    <div class="hero-icon"><i class="fas fa-user-graduate"></i></div>
+    <h1 class="hero-title">Find Your Ideal Tutor</h1>
+    <p class="hero-subtitle">Search the best tutors by your class & subject and connect instantly</p>
+</div>
 
-    <div class="container">
-        <h1>Find Tutors</h1>
-        <form method="post" action="search_tutors.php">
-            <label for="class">Class:</label>
-            <select id="class" name="class" required>
+<div class="main-container">
+    <form method="post" action="search_tutors.php">
+        <div class="form-group">
+            <label for="class">Select Your Class</label>
+            <select id="class" name="class" class="form-control" required>
                 <option value="">Select Class</option>
-                <?php for ($i = 1; $i <= 12; $i++) { echo "<option value=\"$i\">$i</option>"; } ?>
+                <?php for ($i = 1; $i <= 12; $i++) echo "<option value=\"$i\">Class $i</option>"; ?>
             </select>
+        </div>
 
-            <label for="subject">Subject:</label>
-            <select id="subject" name="subject" required>
+        <div class="form-group">
+            <label for="subject">Choose Subject</label>
+            <select id="subject" name="subject" class="form-control" required>
                 <option value="">Select Subject</option>
-                <?php foreach ($subjects as $subj) { echo "<option value=\"$subj\">$subj</option>"; } ?>
+                <?php foreach ($subjects as $subj) echo "<option value=\"$subj\">$subj</option>"; ?>
             </select>
+        </div>
 
-            <input type="submit" value="Search">
-        </form>
+        <div class="text-center mt-4">
+            <button type="submit" class="btn-search">Search Tutor</button>
+        </div>
+    </form>
 
-        <?php if ($search): ?>
-            <?php if (count($results) > 0): ?>
-                <h2>Search Results:</h2>
-                <table class="table table-striped">
+    <?php if ($search): ?>
+        <?php if (count($results) > 0): ?>
+            <div class="results-table">
+                <h3 class="text-center mt-5">Available Tutors:</h3>
+                <table class="table table-bordered mt-3">
                     <thead>
                         <tr>
                             <th>Tutor ID</th>
-                            <th>Tutor Name</th>
+                            <th>Name</th>
                             <th>Class Range</th>
                             <th>Subject</th>
                             <th>Location</th>
-                            <th>Phone Number</th>
-                            <th>Registered At</th>
+                            <th>Phone</th>
+                            <th>Registered</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($results as $tutor): ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($tutor['tutor_id']); ?></td>
-                                <td><?php echo htmlspecialchars($tutor['tutor_name']); ?></td>
-                                <td><?php echo htmlspecialchars($tutor['class_range_start']) . ' - ' . htmlspecialchars($tutor['class_range_end']); ?></td>
-                                <td><?php echo htmlspecialchars($tutor['subject']); ?></td>
-                                <td><?php echo htmlspecialchars($tutor['location']); ?></td>
-                                <td><?php echo htmlspecialchars($tutor['phone_number']); ?></td>
-                                <td><?php echo htmlspecialchars($tutor['created_at']); ?></td>
+                                <td><?= htmlspecialchars($tutor['tutor_id']) ?></td>
+                                <td><?= htmlspecialchars($tutor['tutor_name']) ?></td>
+                                <td><?= htmlspecialchars($tutor['class_range_start']) . ' - ' . htmlspecialchars($tutor['class_range_end']) ?></td>
+                                <td><?= htmlspecialchars($tutor['subject']) ?></td>
+                                <td><?= htmlspecialchars($tutor['location']) ?></td>
+                                <td><?= htmlspecialchars($tutor['phone_number']) ?></td>
+                                <td><?= htmlspecialchars($tutor['created_at']) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-            <?php else: ?>
-                <p class="message">No tutors found for the selected criteria.</p>
-            <?php endif; ?>
+            </div>
+        <?php else: ?>
+            <div class="message">No tutors found for the selected criteria.</div>
         <?php endif; ?>
-    </div>
-    <div id="footer-placeholder"></div>
+    <?php endif; ?>
+</div>
 
+<div id="footer-placeholder"></div>
 <script>
-  fetch('footer.html')
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById('footer-placeholder').innerHTML = data;
-    });
+    fetch('footer.html')
+        .then(res => res.text())
+        .then(data => {
+            document.getElementById('footer-placeholder').innerHTML = data;
+        });
 </script>
-
 </body>
 </html>

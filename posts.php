@@ -112,7 +112,7 @@ $posts = $stmt->get_result();
         }
 
         .professional-card {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.25);
             backdrop-filter: blur(20px);
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
@@ -159,19 +159,20 @@ $posts = $stmt->get_result();
             padding: 1rem;
             font-size: 0.95rem;
             transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.8);
+            background-color:rgba(102, 126, 234, 0.43);
         }
 
         .form-control:focus {
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
             outline: none;
-            background: white;
+            background-color:rgba(102, 126, 234, 0.43);
         }
 
         .form-control[name="content"] {
             min-height: 120px;
             resize: vertical;
+            background-color:rgba(102, 126, 234, 0.43);
         }
 
         .btn-primary {
@@ -236,7 +237,7 @@ $posts = $stmt->get_result();
 
         /* Post Items */
         .post-item {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.45);
             border-radius: 15px;
             padding: 1.5rem;
             margin-bottom: 1rem;
@@ -423,7 +424,8 @@ $posts = $stmt->get_result();
                             <label class="form-label">
                                 <i class="fas fa-tags"></i> Category
                             </label>
-                            <select class="form-control" name="category" required>
+                            <select class="form-control" name="category" required style="background-color: rgba(102, 126, 234, 0.43);">
+
                                 <option value="">Select a category</option>
                                 <option value="educational" <?php echo ($edit_mode && $post_to_edit['category'] == 'educational') ? 'selected' : ''; ?>>
                                     📚 Educational

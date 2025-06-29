@@ -82,7 +82,7 @@ if (isset($_POST['buy'])) {
             border-radius: 5px;
             padding: 15px;
             margin-bottom: 15px;
-            background-color: #ffffff;
+            background-color:rgba(255, 255, 255, 0.26);
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             transition: transform 0.2s;
         }
@@ -92,6 +92,7 @@ if (isset($_POST['buy'])) {
         .btn-buy {
             background-color: #007bff;
             color: blue;
+            color:#0056b3
         }
         .btn-buy:hover {
             background-color: #0056b3;
@@ -102,11 +103,23 @@ if (isset($_POST['buy'])) {
             object-fit: cover;
             margin-bottom: 15px;
         }
+
+        .btn-buy {
+    background-color: blue;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
     </style>
 </head>
 <body>
 
-
+<iframe src="curved-background.html"
+          style="position: fixed; z-index: -1; border: none; width: 100vw; height: 100vh;">
+  </iframe>
 <?php include 'navbar.php'; ?>
 
 <div class="container mt-5">
@@ -136,7 +149,7 @@ if (isset($_POST['buy'])) {
                         <input type='hidden' name='buyer_id' value='" . htmlspecialchars($logged_in_user_id) . "'>
                         <input type='hidden' name='seller_id' value='" . htmlspecialchars($seller_id) . "'>
                         <input type='hidden' name='amount' value='" . htmlspecialchars($row['price']) . "'>
-                        <button type='submit' name='buy' class='btn btn-buy'>Buy Now</button>
+                        <button type='submit' name='buy' class='btn btn-buy'  >Get Now</button>
                       </form>";
                 echo "</div>";
             }

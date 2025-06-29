@@ -173,15 +173,20 @@ $conn->close();
 
         /* Profile Header Card */
         .profile-header-card {
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 2rem;
-            margin-bottom: 2rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
+    background: rgba(255, 255, 255, 0.14); /* semi-transparent white */
+    backdrop-filter: blur(10px); /* adds blur effect */
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 2rem;
+    margin: 0 auto 2rem auto; /* center horizontally and margin-bottom */
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    width: 60%; /* added width */
+}
+
+
 
         .profile-header-card::before {
             content: '';
@@ -530,7 +535,7 @@ $conn->close();
 </head>
 <body>
 <iframe src="curved-background.html"
-          style="position: fixed; z-index: -1; border: none; width: 100vw; height: 100vh;">
+          style="position: fixed; z-index: -1; border: none; width: 100vw; height: 100vh ;">
   </iframe>
 
     <?php include 'navbar.php'; ?>
@@ -547,7 +552,8 @@ $conn->close();
         </div>
 
         <!-- Profile Form -->
-        <div class="form-card">
+        <div class="form-card" style="background: rgba(255, 255, 255, 0.14); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); width: 60%; margin: 0 auto; padding: 2rem; border-radius: 1rem;">
+
             <h2 class="form-title">
                 <i class="fas fa-user-edit"></i>
                 Edit Profile Information
@@ -677,7 +683,7 @@ $conn->close();
 
                 <!-- Action Buttons -->
                 <div class="d-flex justify-content-between align-items-center">
-                    <a href="dashboard.php" class="btn-professional btn-secondary-professional">
+                    <a href="index.php" class="btn-professional btn-secondary-professional">
                         <i class="fas fa-arrow-left"></i>
                         Back to Dashboard
                     </a>

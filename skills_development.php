@@ -116,12 +116,18 @@ $skills = ['PowerPoint', 'Word', 'Excel', 'Web Development', 'Frontend', 'Fullst
             color: var(--primary-color);
         }
         .skill-item {
-            margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            background-color: #f8f9fa;
-        }
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.14); /* semi-transparent */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
         .input-group label {
             font-weight: 600;
         }
@@ -151,7 +157,8 @@ $skills = ['PowerPoint', 'Word', 'Excel', 'Web Development', 'Frontend', 'Fullst
 </head>
 <body>
 <?php include 'navbar.php'; ?>
-<div class="container">
+<div class="container" style="background: rgba(255, 255, 255, 0.14); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); width: 60%; margin: 0 auto; padding: 2rem; border-radius: 1rem;">
+
     <h2>Student Skills</h2>
     <form action="" method="POST" enctype="multipart/form-data">
         <?php foreach ($skills as $skill): ?>

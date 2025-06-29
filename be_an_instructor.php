@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($stmt->execute()) {
         $_SESSION['success_message'] = "You have successfully applied to be an instructor!";
-        header("Location: adminbe_an_instructor.php");
+        header("Location:be_an_instructor.php");
         exit();
     } else {
         $error_message .= "Error: " . $stmt->error;
@@ -159,7 +159,7 @@ if (isset($_SESSION['success_message'])) {
             <div class="error-message"><?php echo $error_message; ?></div>
         <?php endif; ?>
 
-        <form action="adminbe_an_instructor.php" method="POST" enctype="multipart/form-data">
+        <form action="be_an_instructor.php" method="POST" enctype="multipart/form-data">
             <label for="full_name">Full Name:</label>
             <input type="text" id="full_name" name="full_name" required>
 
