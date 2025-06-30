@@ -213,7 +213,7 @@ $result = $stmt->get_result();
             <form method="POST" action="">
               <input type="hidden" name="course_id" value="<?php echo $row['course_id']; ?>">
               <input type="hidden" name="instructor_id" value="<?php echo $row['instructor_id']; ?>">
-              <button type="submit" name="buy_course" class="buy-btn"><i class="fas fa-cart-plus"></i> Buy Now</button>
+              <button type="submit" name="buy_course" class="buy-btn"><i class="fas fa-cart-plus"></i> Get Now</button>
             </form>
           </div>
         </div>

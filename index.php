@@ -540,7 +540,7 @@
 
     <script>
         // Typing Effect
-        const text = "WELCOME TO EduHub";
+        const text = "WELCOME TO EduVerse";
         const typingSpeed = 100;
         let index = 0;
 

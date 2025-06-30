@@ -156,6 +156,10 @@ $skills = ['PowerPoint', 'Word', 'Excel', 'Web Development', 'Frontend', 'Fullst
     </style>
 </head>
 <body>
+
+<iframe src="curved-background.html"
+          style="position: fixed; z-index: -1; border: none; width: 100vw; height: 100vh;">
+  </iframe>
 <?php include 'navbar.php'; ?>
 <div class="container" style="background: rgba(255, 255, 255, 0.14); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); width: 60%; margin: 0 auto; padding: 2rem; border-radius: 1rem;">
 
