@@ -645,7 +645,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         function openChat(receiverId, receiverName) {
             currentContactId = receiverId;
             currentContactName = receiverName;
-            
+            //created by Md Tashrif Rashid Sourav
             // Update chat header
             const chatHeader = document.getElementById('chatHeader');
             const chatAvatar = document.getElementById('chatAvatar');
