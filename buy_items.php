@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buy'])) {
     <style>
         body { font-family: Arial, sans-serif; background-color: #f8f9fa; }
         .item-list { margin: 20px auto; max-width: 800px; }
-        .item-card { border: 1px solid #ddd; border-radius: 5px; padding: 15px; margin-bottom: 15px; background-color: #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.2s; }
+        .item-card { border: 1px solid #ddd; border-radius: 5px; padding: 15px; margin-bottom: 15px; background-color:rgba(255, 255, 255, 0.4); box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.2s; }
         .item-card:hover { transform: scale(1.02); }
     </style>
 </head>
@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buy'])) {
                         <input type='hidden' name='buyer_id' value='" . htmlspecialchars($logged_in_user_id) . "'>
                         <input type='hidden' name='seller_id' value='" . htmlspecialchars($seller_id) . "'>
                         <input type='hidden' name='amount' value='" . htmlspecialchars($row['price']) . "'>
-                        <button type='submit' name='buy' class='btn btn-primary'>Buy Now</button> <!-- Bootstrap Primary Button -->
+                        <button type='submit' name='buy' class='btn btn-primary'>Get Now</button> <!-- Bootstrap Primary Button -->
                       </form>";
                 echo "</div>";
             }
@@ -113,6 +113,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buy'])) {
         ?>
     </div>
 </div>
+<div id="footer-placeholder"></div>
+
+<script>
+  fetch('footer.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+    });
+</script>
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

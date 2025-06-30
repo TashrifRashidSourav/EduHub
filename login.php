@@ -67,7 +67,7 @@ if (isset($_GET['msg'])) {
         }
     </style>
 </head>
-
+<!-- created by Md Tashrif Rashid Sourav -->
 <body class="bg-gradient-to-r from-indigo-200 via-purple-300 to-pink-400 min-h-screen flex items-center justify-center">
     <div class="container max-w-md mx-auto">
         <div class="card shadow-xl rounded-lg p-8 bg-white animate__animated animate__fadeInDown">

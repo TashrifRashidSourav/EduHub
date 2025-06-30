@@ -1,124 +1,191 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand" href="adminindex.php">EduHub</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mx-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="adminindex.php"><i class="fas fa-home"></i> Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="adminprofile.php"><i class="fas fa-user"></i> Profile</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="adminposts.php"><i class="fas fa-comments"></i> Posts</a>
-            </li>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard Navbar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #4f46e5;
+      --dark-color: #1e293b;
+      --light-color: #f1f5f9;
+      --hover-color: #4338ca;
+    }
 
-        
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="booksDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-book"></i> Books
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="booksDropdown">
-                    <li><a class="dropdown-item" href="adminupload_books.php">Upload Books</a></li>
-                    <li><a class="dropdown-item" href="adminbuy_books.php">Buy Books</a></li>
-                </ul>
-            </li>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-            
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="coursesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-graduation-cap"></i> Courses
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="coursesDropdown">
-                    <li><a class="dropdown-item" href="adminbuy_courses.php">Buy Course</a></li>
-                    <li><a class="dropdown-item" href="adminmy_courses.php">My Courses</a></li>
-                
-                </ul>
-            </li>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--light-color);
+    }
 
-           
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="earnCostDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-money-bill-wave"></i> Earnings & Costs
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="earnCostDropdown">
-                    <li><a class="dropdown-item" href="admintransactions.php">Earn</a></li>
-                    <li><a class="dropdown-item" href="admintransaction2.php">Costs</a></li>
-                </ul>
-            </li>
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: var(--dark-color);
+      color: white;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
 
-            <!-- Items Dropdown -->
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="itemsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-box"></i> Items
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="itemsDropdown">
-                    <li><a class="dropdown-item" href="adminbuy_items.php">Buy Items</a></li>
-                    <li><a class="dropdown-item" href="adminupload_items.php">Upload Items</a></li>
-                </ul>
-            </li>
+    .navbar .logo {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
 
-            <li class="nav-item">
-                <a class="nav-link" href="adminskills_development.php"><i class="fas fa-tools"></i> My Skills</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="adminranking.php"><i class="fas fa-star"></i> Ranking</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="adminbe_an_instructor.php"><i class="fas fa-chalkboard-teacher"></i> Apply for Instructor</a>
-            </li>
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
 
-            <!-- Blood-related Dropdown -->
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="bloodDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-tint"></i> Blood
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="bloodDropdown">
-                    <li><a class="dropdown-item" href="adminblood.php">Blood Donation</a></li>
-                    <li><a class="dropdown-item" href="adminblood_find.php">Find Blood</a></li>
-                </ul>
-            </li>
+    .navbar ul li {
+      position: relative;
+    }
 
-            <!-- Tuition-related Dropdown -->
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="tuitionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-money-check-alt"></i> Tuition
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="tuitionDropdown">
-                    <li><a class="dropdown-item" href="adminadd_tuition.php">Ask For Tutor</a></li>
-                    <li><a class="dropdown-item" href="adminview_tuitions.php">Find Tuition</a></li>
-                    <li><a class="dropdown-item" href="adminregister_tutor.php">Wanna be a Tutor</a></li>
-                    <li><a class="dropdown-item" href="adminsearch_tutors.php">Search Tutor</a></li>
-                </ul>
-            </li>
+    .navbar ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease-in-out;
+      cursor: pointer;
+    }
 
-            <!-- Work Dropdown -->
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="workDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-briefcase"></i> Work
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="workDropdown">
-                    <li><a class="dropdown-item" href="adminwork.php">Add Work</a></li>
-                    <li><a class="dropdown-item" href="adminsearchwork.php">Search Work</a></li>
-                </ul>
-            </li>
+    .navbar ul li a:hover {
+      color: var(--hover-color);
+    }
 
-            <li class="nav-item">
-                <a class="nav-link" href="adminchat.php"><i class="fas fa-comments"></i> Chat</a>
-            </li>
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 120%;
+      left: 0;
+      background-color: rgb(0, 0, 0);
+      border-radius: 8px;
+      min-width: 180px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      z-index: 999;
+    }
 
-            <li class="nav-item">
-                <a class="nav-link" href="adminsearch.php"><i class="fas fa-comments"></i> Search</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
-            </li>
-        </ul>
+    .dropdown-menu a {
+      color: #000000;
+      background-color: #4f46e5;
+      display: block;
+      padding: 10px 15px;
+      text-decoration: none;
+      border-bottom: 1px solid #e0e0e0;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .dropdown-menu a:hover {
+      background-color: rgb(19, 54, 89);
+      color: var(--primary-color);
+    }
+
+    .dropdown.open .dropdown-menu {
+      display: block;
+    }
+
+    .profile-icon {
+      background: var(--hover-color);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .navbar ul {
+        flex-direction: column;
+        background: var(--dark-color);
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        display: none;
+      }
+
+      .navbar ul.show {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: block;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+    }
+
+    .menu-toggle {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">AdminPanel</div>
+    <div class="menu-toggle" id="menu-toggle">
+      <i class="fas fa-bars"></i>
     </div>
-</nav>
+    <ul id="nav-menu">
+      <li><a href="adminindex.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+      
+      <li class="dropdown" id="manageDropdown">
+        <a onclick="toggleDropdown('manageDropdown')"><i class="fas fa-user-cog"></i> Manage</a>
+        <div class="dropdown-menu">
+          <a href="adminposts.php">Notice</a>
+          <a href="#">Roles</a>
+          <a href="#">Permissions</a>
+        </div>
+      </li>
 
-<!-- Include Bootstrap JS and Popper.js for dropdown functionality -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+      <li class="dropdown" id="dataDropdown">
+        <a onclick="toggleDropdown('dataDropdown')"><i class="fas fa-database"></i> Data</a>
+        <div class="dropdown-menu">
+          <a href="#">Logs</a>
+          <a href="#">Backups</a>
+          <a href="#">Reports</a>
+        </div>
+      </li>
+
+      <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
+      <li><a href="logout.php" class="profile-icon"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+  </nav>
+
+  <script>
+    const toggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('nav-menu');
+
+    toggle.addEventListener('click', () => {
+      menu.classList.toggle('show');
+    });
+
+    function toggleDropdown(id) {
+      const dropdown = document.getElementById(id);
+      dropdown.classList.toggle('open');
+
+      // Close other dropdowns
+      document.querySelectorAll('.dropdown').forEach(el => {
+        if (el.id !== id) {
+          el.classList.remove('open');
+        }
+      });
+    }
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.dropdown')) {
+        document.querySelectorAll('.dropdown').forEach(el => el.classList.remove('open'));
+      }
+    });
+  </script>
+</body>
+</html>

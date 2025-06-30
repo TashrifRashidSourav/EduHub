@@ -149,11 +149,16 @@ $result = $stmt->get_result();
     </style>
 </head>
 <body>
+
+<iframe src="curved-background.html"
+          style="position: fixed; z-index: -1; border: none; width: 100vw; height: 100vh;">
+  </iframe>
     <!-- Include Navbar -->
     <?php include 'navbar.php'; ?>
 
     <!-- Main Content -->
-    <div class="container">
+    <div class="container" style="background: rgba(255, 255, 255, 0.14); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); width: 60%; margin: 0 auto; padding: 2rem; border-radius: 1rem;">
+
         <h1 class="text-center mb-4">Sell Book</h1>
         <form action="upload_books.php" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
             <div class="form-group">
@@ -206,6 +211,15 @@ $result = $stmt->get_result();
             <?php endwhile; ?>
         </div>
     </div>
+    <div id="footer-placeholder"></div>
+
+<script>
+  fetch('footer.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+    });
+</script>
 
     <!-- Include Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

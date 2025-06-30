@@ -18,56 +18,50 @@ $student_id = 1; // This should come from the logged-in user session
 $skills = [];
 $skill_data = [];
 
-// Fetch skills from the database
+// Handle form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Handle form submission
     $selected_skills = $_POST['skills'] ?? [];
     $descriptions = $_POST['description'] ?? [];
     $work_experience_years = $_POST['work_experience_years'] ?? [];
     $portfolio = $_POST['portfolio'] ?? '';
 
-    // Handle file upload for the demo project
     $demo_project = '';
     if (isset($_FILES['demo_project']) && $_FILES['demo_project']['error'] == UPLOAD_ERR_OK) {
         $file_tmp_path = $_FILES['demo_project']['tmp_name'];
-        $file_name = $_FILES['demo_project']['name'];
+        $file_name = time() . '_' . basename($_FILES['demo_project']['name']);
         $file_size = $_FILES['demo_project']['size'];
         $file_type = $_FILES['demo_project']['type'];
-        
-        // Validate file type (only pptx and pdf)
+
         $allowed_file_types = ['application/pdf', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'];
         if (in_array($file_type, $allowed_file_types)) {
-            $upload_path = 'uploads/' . basename($file_name); // Path to save the uploaded file
+            if (!file_exists('uploads')) {
+                mkdir('uploads', 0777, true);
+            }
+            $upload_path = 'uploads/' . $file_name;
             move_uploaded_file($file_tmp_path, $upload_path);
-            $demo_project = $upload_path; // Save the path of the uploaded file
+            $demo_project = $upload_path;
         } else {
             echo "Only PDF and PPTX files are allowed.";
         }
     }
 
-    // Save selected skills and other info to the database
     foreach ($selected_skills as $skill_name) {
         $description = $descriptions[$skill_name] ?? '';
         $work_experience = $work_experience_years[$skill_name] ?? 0;
 
-        // Prepare the SQL statement
         $stmt = $conn->prepare("INSERT INTO student_skills (student_id, skill_name, description, work_experience_years, demo_project, portfolio) 
-                                 VALUES (?, ?, ?, ?, ?, ?)
+                                 VALUES (?, ?, ?, ?, ?, ?) 
                                  ON DUPLICATE KEY UPDATE description=?, work_experience_years=?, demo_project=?, portfolio=?");
 
-        // Check if the prepare failed
         if (!$stmt) {
             die("Prepare failed: " . $conn->error);
         }
 
-        // Bind parameters
-        $stmt->bind_param("ississssss", $student_id, $skill_name, $description, $work_experience, $demo_project, $portfolio, 
+        $stmt->bind_param("ississssss", $student_id, $skill_name, $description, $work_experience, $demo_project, $portfolio,
                           $description, $work_experience, $demo_project, $portfolio);
-        
-        // Execute the statement
+
         $stmt->execute();
-        
-        // Optional: Check for errors during execution
+
         if ($stmt->error) {
             die("Execute failed: " . $stmt->error);
         }
@@ -88,7 +82,6 @@ while ($row = $result->fetch_assoc()) {
     $skill_data[$row['skill_name']] = $row;
 }
 
-// Skills array
 $skills = ['PowerPoint', 'Word', 'Excel', 'Web Development', 'Frontend', 'Fullstack'];
 ?>
 
@@ -96,41 +89,48 @@ $skills = ['PowerPoint', 'Word', 'Excel', 'Web Development', 'Frontend', 'Fullst
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Skills</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #ff6b6b;
+        }
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
         }
-
         .container {
-            width: 80%;
-            margin: 0 auto;
+            max-width: 900px;
+            margin: 40px auto;
             background: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
         }
-
         h2 {
             text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary-color);
         }
-
-        .skills-section {
-            margin-bottom: 20px;
-        }
-
         .skill-item {
-            margin-bottom: 10px;
-        }
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.14); /* semi-transparent */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-        .input-group {
-            margin-bottom: 15px;
+        .input-group label {
+            font-weight: 600;
         }
-
         input[type="text"], input[type="number"] {
             width: 100%;
             padding: 8px;
@@ -138,60 +138,74 @@ $skills = ['PowerPoint', 'Word', 'Excel', 'Web Development', 'Frontend', 'Fullst
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-
         input[type="file"] {
-            margin-top: 5px;
+            margin-top: 10px;
         }
-
         button {
-            background-color: #28a745;
+            background-color: var(--primary-color);
             color: white;
-            padding: 10px;
             border: none;
+            padding: 12px;
             border-radius: 5px;
             cursor: pointer;
             width: 100%;
         }
-
         button:hover {
-            background-color: #218838;
+            background-color: var(--secondary-color);
         }
     </style>
 </head>
 <body>
+
+<iframe src="curved-background.html"
+          style="position: fixed; z-index: -1; border: none; width: 100vw; height: 100vh;">
+  </iframe>
 <?php include 'navbar.php'; ?>
-    <div class="container">
-        <h2>Student Skills</h2>
-        <form action="" method="POST" enctype="multipart/form-data">
-            <div class="skills-section">
-                <?php foreach ($skills as $skill): ?>
-                    <div class="skill-item">
-                        <input type="checkbox" name="skills[]" value="<?= $skill ?>" id="<?= $skill ?>" 
-                            <?= isset($skill_data[$skill]) ? 'checked' : '' ?>>
-                        <label for="<?= $skill ?>"><?= $skill ?></label>
-                        <input type="text" name="description[<?= $skill ?>]" 
-                            placeholder="Description" 
-                            value="<?= isset($skill_data[$skill]) ? $skill_data[$skill]['description'] : '' ?>">
-                        <input type="number" name="work_experience_years[<?= $skill ?>]" 
-                            placeholder="Years of Experience" 
-                            value="<?= isset($skill_data[$skill]) ? $skill_data[$skill]['work_experience_years'] : '' ?>">
-                    </div>
-                <?php endforeach; ?>
+<div class="container" style="background: rgba(255, 255, 255, 0.14); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); width: 60%; margin: 0 auto; padding: 2rem; border-radius: 1rem;">
+
+    <h2>Student Skills</h2>
+    <form action="" method="POST" enctype="multipart/form-data">
+        <?php foreach ($skills as $skill): ?>
+            <div class="skill-item">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="skills[]" id="<?= $skill ?>" value="<?= $skill ?>" <?= isset($skill_data[$skill]) ? 'checked' : '' ?>>
+                    <label class="form-check-label" for="<?= $skill ?>"><strong><?= $skill ?></strong></label>
+                </div>
+                <div class="input-group mt-2">
+                    <label>Description:</label>
+                    <input type="text" name="description[<?= $skill ?>]" placeholder="Describe your skill" value="<?= $skill_data[$skill]['description'] ?? '' ?>">
+                </div>
+                <div class="input-group mt-2">
+                    <label>Years of Experience:</label>
+                    <input type="number" name="work_experience_years[<?= $skill ?>]" min="0" max="50" placeholder="Years" value="<?= $skill_data[$skill]['work_experience_years'] ?? '' ?>">
+                </div>
             </div>
-            <div class="input-group">
-                <label for="demo_project">Demo Project (Upload PDF or PPTX):</label>
-                <input type="file" name="demo_project" id="demo_project" accept=".pptx,.pdf">
-            </div>
-            <div class="input-group">
-                <label for="portfolio">Portfolio:</label>
-                <input type="text" name="portfolio" id="portfolio" placeholder="Link to portfolio" 
-                       value="<?= !empty($skill_data) ? (reset($skill_data)['portfolio'] ?? '') : '' ?>">
-            </div>
-            <button type="submit">Save Skills</button>
-        </form>
-    </div>
+        <?php endforeach; ?>
+
+        <div class="form-group">
+            <label for="demo_project">Demo Project (PDF/PPTX only):</label>
+            <input type="file" name="demo_project" id="demo_project" accept=".pdf,.pptx">
+        </div>
+
+        <div class="form-group">
+            <label for="portfolio">Portfolio URL:</label>
+            <input type="text" name="portfolio" id="portfolio" placeholder="https://example.com" value="<?= !empty($skill_data) ? (reset($skill_data)['portfolio'] ?? '') : '' ?>">
+        </div>
+
+        <button type="submit">Save Skills</button>
+    </form>
+</div>
 </body>
 </html>
+<div id="footer-placeholder"></div>
+
+<script>
+  fetch('footer.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+    });
+</script>
 
 <?php
 $conn->close();
