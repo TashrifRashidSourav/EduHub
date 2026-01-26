@@ -15,43 +15,8 @@ if (ini_get("session.use_cookies")) {
 
 // Finally, destroy the session.
 session_destroy();
+
+// Redirect to landing page
+header("Location: landing.php");
+exit();
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logout</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            flex-direction: column;
-        }
-        .logout-message {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .btn {
-            margin-top: 10px;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="logout-message">
-        <h2>You have been logged out successfully.</h2>
-        <p>Click the button below to go back to the login page.</p>
-        <a href="login.php" class="btn btn-primary">Login Again</a>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
