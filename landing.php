@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduHub - Professional Learning Platform</title>
   
-    <!-- Bootstrap 5 CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
@@ -25,8 +24,6 @@
             min-height: 100vh;
         }
 
-        a { text-decoration: none; }
-
         /* Hero Section */
         .hero-section {
             min-height: 100vh;
@@ -34,10 +31,15 @@
             align-items: center;
             justify-content: center;
             position: relative;
+            /* background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%); */
+            overflow: hidden;
+
             background: url('./images/bg1.jpg') no-repeat center center fixed;
-            background-size: cover;
-            margin: 0;
-            padding: 0;
+  background-size: cover;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+
         }
 
         .hero-section::before {
@@ -47,7 +49,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.9) 100%);
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="rgba(255,255,255,0.05)" points="0,1000 1000,0 1000,1000"/></svg>');
             pointer-events: none;
         }
 
@@ -99,6 +101,7 @@
             transform: translateY(-3px);
             box-shadow: 0 12px 35px rgba(255, 107, 107, 0.4);
             color: white;
+            text-decoration: none;
         }
 
         .cta-secondary {
@@ -209,6 +212,7 @@
 
         .service-link:hover {
             color: #764ba2;
+            text-decoration: none;
         }
 
         /* Stats Section */
@@ -333,6 +337,20 @@
             }
         }
 
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         /* Animations */
         @keyframes fadeInUp {
             from {
@@ -363,19 +381,19 @@
 </head>
 <body>
     <!-- Include Navbar -->
-    <?php include 'navbar.php'; ?>
+    <?php include 'navbar_landing.php'; ?>
 
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="hero-content">
             <h1 class="hero-title" id="typingEffect"></h1>
             <p class="hero-subtitle" style="color:rgb(255, 255, 255); font-weight: bold;">
-                Transform your learning journey with our comprehensive educational platform. Access courses, connect with tutors, and join a thriving community of learners.
-            </p>
+  Transform your learning journey with our comprehensive educational platform. Access courses, connect with tutors, and join a thriving community of learners.
+</p>
 
             <div>
                 <a href="#services" class="cta-button">Explore Services</a>
-                <a href="/EduHub/login.php" class="cta-button cta-secondary">Get Started</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" class="cta-button cta-secondary">Get Started</a>
             </div>
         </div>
     </section>
@@ -515,8 +533,10 @@
         </div>
     </footer>
 
-    <!-- Bootstrap 5 JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
         // Typing Effect
